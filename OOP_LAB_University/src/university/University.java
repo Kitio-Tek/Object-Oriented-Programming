@@ -7,13 +7,24 @@ package university;
  *
  */
 public class University {
+	public static final int INIT_Student=10000;
+	public static final int INIT_Course=10;
 
+    public int student_id=INIT_Student;
+    public int course_id=INIT_Course;
+    
+    Student[] students=new Student[INIT_Student];
+    Course[] courses=new Course[INIT_Course];
+    Student stmp;
+    Course ctmp;
+    
 	/**
 	 * Constructor
 	 * @param name name of the university
 	 */
 	public University(String name){
 		//TODO: to be implemented
+		this.name=name;
 	}
 	
 	/**
@@ -23,7 +34,7 @@ public class University {
 	 */
 	public String getName(){
 		//TODO: to be implemented
-		return null;
+		return this.name;
 	}
 	
 	/**
@@ -34,6 +45,8 @@ public class University {
 	 */
 	public void setRector(String first, String last){
 		//TODO: to be implemented
+		this.first=first;
+		this.last=last;
 	}
 	
 	/**
@@ -43,7 +56,7 @@ public class University {
 	 */
 	public String getRector(){
 		//TODO: to be implemented
-		return null;
+		return this.first +" "+this.last;
 	}
 	
 	/**
@@ -56,7 +69,10 @@ public class University {
 	 */
 	public int enroll(String first, String last){
 		//TODO: to be implemented
-		return -1;
+		Student st=new Student(first,last,student_id);
+		students[student_id-INIT_Student]=st;
+		
+		return student_id++;
 	}
 	
 	/**
@@ -68,7 +84,7 @@ public class University {
 	 */
 	public String student(int id){
 		//TODO: to be implemented
-		return null;
+		return students[id].toString();
 	}
 	
 	/**
@@ -81,7 +97,11 @@ public class University {
 	 */
 	public int activate(String title, String teacher){
 		//TODO: to be implemented
-		return -1;
+		Course c=new Course(title,teacher,course_id);
+		courses[courses_id-INIT_Course]=c;
+		
+		return course_id++;
+		
 	}
 	
 	/**
@@ -97,7 +117,7 @@ public class University {
 	 */
 	public String course(int code){
 		//TODO: to be implemented
-		return null;
+		return courses[code].toString();
 	}
 	
 	/**
@@ -107,6 +127,24 @@ public class University {
 	 */
 	public void register(int studentID, int courseCode){
 		//TODO: to be implemented
+		for(int i=0;i<1000;i++) {
+			if(student[i].ID==studentID)
+			{ stmp=student[i];
+			  break;
+			}
+		}
+		
+		for(int i=0;i<50;i++) {
+			if(courses[i].course_id==courseCode)
+			{ ctmp=courses[i];
+			  break;
+			}
+		}
+      
+		stmp.enroll(ctmp);
+		ctmp.enroll(stmp);
+		
+		
 	}
 	
 	/**
@@ -117,7 +155,15 @@ public class University {
 	 */
 	public String listAttendees(int courseCode){
 		//TODO: to be implemented
-		return null;
+		
+		for(int i=0;i<1000;i++) {
+			if(courses[i].course_id==courseCode)
+			{
+				ctmp=courses[i];
+				break;
+			}
+		}
+		return ctmp.list();
 	}
 
 	/**
