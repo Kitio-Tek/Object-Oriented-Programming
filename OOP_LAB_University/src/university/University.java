@@ -10,13 +10,16 @@ public class University {
 	public static final int INIT_Student=10000;
 	public static final int INIT_Course=10;
 
-    public int student_id=INIT_Student;
-    public int course_id=INIT_Course;
+    private int student_id=INIT_Student;
+    private int course_id=INIT_Course;
+    private String name;
+    private String first;
+    private String last;
     
-    Student[] students=new Student[INIT_Student];
-    Course[] courses=new Course[INIT_Course];
-    Student stmp;
-    Course ctmp;
+    private Student[] students=new Student[INIT_Student];
+    private Course[] courses=new Course[INIT_Course];
+    private Student stmp;
+    private Course ctmp;
     
 	/**
 	 * Constructor
@@ -84,7 +87,7 @@ public class University {
 	 */
 	public String student(int id){
 		//TODO: to be implemented
-		return students[id].toString();
+		return students[id-INIT_Student].toString();
 	}
 	
 	/**
@@ -98,7 +101,7 @@ public class University {
 	public int activate(String title, String teacher){
 		//TODO: to be implemented
 		Course c=new Course(title,teacher,course_id);
-		courses[courses_id-INIT_Course]=c;
+		courses[course_id-INIT_Course]=c;
 		
 		return course_id++;
 		
@@ -117,7 +120,7 @@ public class University {
 	 */
 	public String course(int code){
 		//TODO: to be implemented
-		return courses[code].toString();
+		return courses[code-INIT_Course].toString();
 	}
 	
 	/**
@@ -128,8 +131,8 @@ public class University {
 	public void register(int studentID, int courseCode){
 		//TODO: to be implemented
 		for(int i=0;i<1000;i++) {
-			if(student[i].ID==studentID)
-			{ stmp=student[i];
+			if(students[i].ID==studentID)
+			{ stmp=students[i];
 			  break;
 			}
 		}

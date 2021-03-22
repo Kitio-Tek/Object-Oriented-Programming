@@ -33,10 +33,10 @@ public void enroll(Student s) {
 }
 	
 public String list() {
-	if(student[0]!=null)
-		row=student[0].toString()+ "\n";
+	if(this.student[0]!=null)
+		row=this.student[0].toString()+ "\n";
 	for(int i=1;student[i]!=null;i++) {
-		row=row+student[i].toString()+ "\n";
+		row=row+this.student[i].toString()+ "\n";
 	}
 	
 	return row;
