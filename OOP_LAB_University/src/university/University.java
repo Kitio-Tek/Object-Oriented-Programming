@@ -159,7 +159,7 @@ public class University {
 	public String listAttendees(int courseCode){
 		//TODO: to be implemented
 		
-		for(int i=0;i<1000;i++) {
+		for(int i=0;i<50;i++) {
 			if(courses[i].course_id==courseCode)
 			{
 				ctmp=courses[i];
@@ -182,6 +182,15 @@ public class University {
 	 */
 	public String studyPlan(int studentID){
 		//TODO: to be implemented
-		return null;
+		
+		for(int i=0;i<1000;i++) {
+			if(students[i].ID==studentID)
+			{
+				stmp=students[i];
+				break;
+			}
+		}
+		return stmp.list();
+		
 	}
 }
