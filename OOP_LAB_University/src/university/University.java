@@ -16,8 +16,8 @@ public class University {
     private String first;
     private String last;
     
-    private Student[] students=new Student[INIT_Student];
-    private Course[] courses=new Course[INIT_Course];
+    public Student[] students=new Student[INIT_Student];
+    public Course[] courses=new Course[INIT_Course];
     private Student stmp;
     private Course ctmp;
     
@@ -121,6 +121,7 @@ public class University {
 	public String course(int code){
 		//TODO: to be implemented
 		return courses[code-INIT_Course].toString();
+		
 	}
 	
 	/**
