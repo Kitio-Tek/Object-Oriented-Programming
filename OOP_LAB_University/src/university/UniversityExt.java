@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 public class UniversityExt extends University {
 	
 	private final static Logger logger = Logger.getLogger("University");
+	public int sum;
 
 	public UniversityExt(String name) {
 		super(name);
@@ -26,6 +27,30 @@ public class UniversityExt extends University {
 	 */
 	public void exam(int studentId, int courseID, int grade) {
 		
+		for(int i=0;i<1000;i++)
+		{	if(students[i].ID==studentId) 
+				{ for(int j=0;j<50;j++) {
+			       if(students[i].course[j].course_id==courseID)
+					{ students[i].course[j].addgrade(grade);
+			         students[i].count++;
+			         break;}
+			       }
+				 break;
+				}
+				}
+		
+		for(int i=0;i<50;i++)
+		{ if(courses[i].course_id==courseID)
+				{ for(int j=0;j<1000;j++) {
+			      if(courses[i].student[j].ID==studentId)
+					 {courses[i].student[j].addgrade(grade);
+			          courses[i].count++;
+			         break;}
+			      }
+				break;
+				 }
+				}
+		
 	}
 
 	/**
@@ -41,7 +66,27 @@ public class UniversityExt extends University {
 	 * @return the average grade formatted as a string.
 	 */
 	public String studentAvg(int studentId) {
-		return null;
+		
+		for(int i=0;i<1000;i++)
+		{
+			if(students[i].ID==studentId && students[i].count>0)
+			{
+				for(int j=0;j<students[i].count;j++)
+				{ 
+					sum+=students[i].course[j].grade;
+				}
+				   students[i].average=sum/students[i].count;
+				   return "Student " + studentId +" : " +  students[i].average;
+			}
+			
+			
+			 if(students[i].ID==studentId && students[i].count==0)
+				return "Student " +studentId +" hasn't taken any exams";
+
+			
+		} return null;
+	
+		
 	}
 	
 	/**
@@ -56,6 +101,28 @@ public class UniversityExt extends University {
 	 * @return the course average formatted as a string
 	 */
 	public String courseAvg(int courseId) {
+		sum=0;
+		for(int i=0;i<50;i++)
+		{
+			if(courses[i].course_id==courseId && courses[i].count>0)
+			{
+				for(int j=0;j<courses[i].count;j++)
+				{ 
+					sum+=courses[i].student[j].grade;
+				}
+				   courses[i].average=sum/courses[i].count;
+				   return "The average for the course " + courses[i].average;
+			}
+			
+			
+			 if(courses[i].course_id==courseId && courses[i].count==0)
+				return "No student has taken the exam in "+ courseId ;
+
+			
+		}
+		
+		
+		
 		return null;
 	}
 	
