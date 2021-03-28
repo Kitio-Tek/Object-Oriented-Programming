@@ -5,8 +5,11 @@ public String title;
 public String teacher;
 public int course_id;
 public int length=50;
+public int grade;
 public Student[] student;
 String row;
+public int count=0;
+public float average;
 
 public Course(String title,String teacher, int id) {
 this.title=title;
@@ -16,7 +19,9 @@ student=new Student[1000];
 
 }
 
-
+public void addgrade(int grade) {
+	this.grade=grade;
+}
 
 public String toString() {
 	return this.course_id+ ","+ this.title+ ","+ this.teacher;
