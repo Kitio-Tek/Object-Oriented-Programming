@@ -7,6 +7,9 @@ public int ID;
 public Course[] course;
 public int length=1000;
 String row;
+public int grade;
+public int count=0;
+public float average;
 
 public Student(String first,String last, int id) {
 this.first=first;
@@ -14,6 +17,9 @@ this.last=last;
 this.ID=id;
 course=new Course[50];
 
+}
+public void addgrade(int grade) {
+	this.grade=grade;
 }
 
 public String toString() {
