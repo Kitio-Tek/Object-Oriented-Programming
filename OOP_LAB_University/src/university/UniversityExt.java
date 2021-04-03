@@ -17,6 +17,31 @@ public class UniversityExt extends University {
 		// Example of logging
 		logger.info("Creating extended university object");
 	}
+@Override
+	public int enroll(String first, String last){
+		int student_id;
+		student_id=super.enroll(first, last);
+		logger.info("New student enrolled: "+ student_id+ ","+ first +" "+last );
+		
+		return student_id;
+	}
+@Override
+  public int activate(String title, String teacher){
+	int course_id;
+	course_id=super.activate(title, teacher);
+	logger.info("New course activated: "+course_id+ ", "+ title +" "+teacher );
+	
+	return course_id;
+	
+}
+
+@Override
+public void register(int studentID, int courseCode){
+	super.register(studentID, courseCode);
+	logger.info("Student "+studentID+ " signed up for course " + courseCode );
+	
+}
+
 
 	/**
 	 * records the grade (integer 0-30) for an exam can 
@@ -27,29 +52,79 @@ public class UniversityExt extends University {
 	 */
 	public void exam(int studentId, int courseID, int grade) {
 		
+				
+		/*for (Student student : students) {
+			if(student.getID()==studentId) 
+			{ 
+				for (Course course : student.getCourse()) {
+					   if(course.getId()==courseID) {
+						   student.addSgrade(courseID,grade);
+						   student.addCount();
+						   break;
+					   }
+						 
+					   }
+				break;
+				}
+			}*/          students[studentId-10000].addSgrade(courseID,grade);
+			             students[studentId-10000].addCount();
+		
+		
+						   courses[courseID-10].addCgrade(studentId,grade);
+						   courses[courseID-10].addCount();
+						   
+			logger.info("Student "+students[studentId-10000].getID() + " took an exam in course " + courseID+" with grade " + grade );
+				
+		
+		/*for (Student student : this.students) {
+			if(student.getID()==studentId) 
+			{ 
+				for (Course course : student.getCourse()) {
+					   if(course.getId()==courseID) {
+						   course.addgrade(grade);
+						   student.addCount();
+						   break;
+					   }
+						 
+					   }
+				break;
+				}
+			}
+		for (Course course : this.courses) {
+			if(course.getId()==courseID) 
+			{ 
+				for (Student student : course.getStudent()) {
+					   if(student.getID()==studentId) {
+						   student.addgrade(grade);
+						   course.addCount();
+						   break;
+					   }
+						 }break;
+				}}*/
+		/*
 		for(int i=0;i<1000;i++)
-		{	if(students[i].ID==studentId) 
+		{	if(students[i].getID()==studentId) 
 				{ for(int j=0;j<50;j++) {
-			       if(students[i].course[j].course_id==courseID)
-					{ students[i].course[j].addgrade(grade);
-			         students[i].count++;
+			       if(students[i].getCourse()[j].course_id==courseID)
+					{ students[i].getCourse()[j].addgrade(grade);
+			         students[i].addCount();
 			         break;}
 			       }
 				 break;
 				}
 				}
 		
-		for(int i=0;i<50;i++)
-		{ if(courses[i].course_id==courseID)
+		/*for(int i=0;i<50;i++)
+		{ if(this.courses[i].getcourse_id()==courseID)
 				{ for(int j=0;j<1000;j++) {
-			      if(courses[i].student[j].ID==studentId)
-					 {courses[i].student[j].addgrade(grade);
-			          courses[i].count++;
+			      if(this.courses[i].getStudent()[j].getID()==studentId)
+					 {this.courses[i].getStudent()[j].addgrade(grade);
+			          this.courses[i].addCount();
 			         break;}
 			      }
 				break;
 				 }
-				}
+				}*/
 		
 	}
 
@@ -67,25 +142,61 @@ public class UniversityExt extends University {
 	 */
 	public String studentAvg(int studentId) {
 		
+		float avg=0;
+		avg=students[studentId-10000].getAverage();
+		
+		
+		if (students[studentId-10000].getCount()>0 && avg>0)
+			return "Student " + studentId +" : " + students[studentId-10000].getAverage();
+		else 
+			return "Student "+ studentId +" hasn't taken any exams";		
+
+		
+		
+		/*for (Student student : students) {
+			if(student!=null) {
+			student.setSAverage(student.getCount());
+			if(student.getID()==studentId && student.getCount()>0) {
+				 
+				
+				return "Student " + studentId +" : " + student.getAverage(); 
+			}}
+			
+		}*/
+
+		
+		/*float sum=0;
 		for(int i=0;i<1000;i++)
 		{
-			if(students[i].ID==studentId && students[i].count>0)
+			if(this.students[i].getID()==studentId && this.students[i].getCount()>0)
 			{
-				for(int j=0;j<students[i].count;j++)
+				for(int j=0;j<this.students[i].getCount();j++)
 				{ 
-					sum+=students[i].course[j].grade;
+					sum+=this.students[i].getCourse()[j].getGrade();
 				}
-				   students[i].average=sum/students[i].count;
-				   return "Student " + studentId +" : " +  students[i].average;
+				   this.students[i].setAverage(sum/this.students[i].getCount());
+				   return "Student " + studentId +" : " +  this.students[i].getAverage();
 			}
 			
 			
-			 if(students[i].ID==studentId && students[i].count==0)
+			 if(this.students[i].getID()==studentId && this.students[i].getCount()==0)
 				return "Student " +studentId +" hasn't taken any exams";
 
 			
-		} return null;
-	
+		} */
+		
+		/*for (Student student : students) {
+			if(student.getID()==studentId && student.getCount()>0) {
+				for (int i=0;i<student.getCount();i++) {
+					sum+=course[i]getGrade();
+				}
+				student.setAverage(sum/student.getCount());
+				return "Student " + studentId +" : " + student.getAverage();
+			}
+		*/
+						
+		
+	 /*return "Student "+ studentId +" hasn't taken any exams "  ;*/
 		
 	}
 	
@@ -101,29 +212,57 @@ public class UniversityExt extends University {
 	 * @return the course average formatted as a string
 	 */
 	public String courseAvg(int courseId) {
-		sum=0;
-		for(int i=0;i<50;i++)
-		{
-			if(courses[i].course_id==courseId && courses[i].count>0)
-			{
-				for(int j=0;j<courses[i].count;j++)
-				{ 
-					sum+=courses[i].student[j].grade;
-				}
-				   courses[i].average=sum/courses[i].count;
-				   return "The average for the course " + courses[i].average;
+		
+		
+		float avg=0;
+		avg=courses[courseId-10].getAverage();
+		String title=new String();
+		title=courses[courseId-10].getTitle();
+		
+		if (avg==0  || courses[courseId-10].getCount()==0)
+			return "No student has taken the exam in " + title;
+		else 
+			return "The average for the course " + title + " is: " + avg;		
+		/*for (Course course : courses) {
+			if(course!=null) {
+			course.setCAverage(course.getCount());
+			if(course.getcourse_id()==courseId ) {
+				if(course.getAverage()==0)
+		
+					title=course.getTitle();
+				   
+				
+				else
+				return  "The average for the course " + course.getTitle() +" is : " + course.getAverage(); 
 			}
 			
+				 
 			
-			 if(courses[i].course_id==courseId && courses[i].count==0)
-				return "No student has taken the exam in "+ courseId ;
+			
+		  }
+			
+		}*/
 
+		
+		/*float sum=0;
+		
+		for(int i=0;i<50;i++)
+		{
+			if(this.courses[i].getcourse_id()==courseId && this.courses[i].getCount()>0)
+			{
+				for(int j=0;j<this.courses[i].getCount();j++)
+				{ 
+					sum+=this.courses[i].getStudent()[j].getGrade();
+				}
+				   this.courses[i].setAverage((float)sum/this.courses[i].getCount());
+				   return "The average for the course " + this.courses[i].getAverage();	
+				
+			}
 			
-		}
+		}*/
 		
-		
-		
-		return null;
+		/*return 	"No student has taken the exam in " + title ;*/
+	
 	}
 	
 	/**
@@ -142,6 +281,29 @@ public class UniversityExt extends University {
 	 * @return info of the best three students.
 	 */
 	public String topThreeStudents() {
-		return null;
+		Student tmp=new Student(null,null,0);
+		String result=new String();
+		for(int i=0;i<1000 && students[i]!=null;i++)
+		{
+			for(int j=i+1;j<1000 && students[j]!=null; j++)
+			{
+				if(students[i].getFinalscore()<students[j].getFinalscore() || Float.isNaN(students[i].getFinalscore()))
+				{
+					tmp = students[i];
+					students[i] = students[j];
+					students[j] = tmp;
+
+				}
+			}
+		}
+		
+		for(int i=0;i<3;i++) {
+			if(students[i]!=null && students[i].getFinalscore()>0)
+		result=result+ students[i].getFirst() + " " + students[i].getLast() + " " + students[i].getFinalscore() + "\n";
+			/*else
+		result=result + "There are only "+ i +" number of students" +"\n";*/
+		}
+		
+		return result;
 	}
 }

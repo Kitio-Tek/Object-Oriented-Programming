@@ -1,4 +1,3 @@
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -49,5 +48,6 @@ public class ExampleAppExt {
 		System.out.println(poli.courseAvg(macro)); // 28.5
 		
 		System.out.println("Best students:\n" + poli.topThreeStudents());
+	  
 	}
 }

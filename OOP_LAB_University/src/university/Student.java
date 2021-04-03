@@ -1,51 +1,117 @@
 package university;
 
 public class Student {
-public String first;
-public String last;
-public int ID;
-public Course[] course;
-public int length=1000;
-String row;
-public int grade;
-public int count=0;
-public float average;
+private String first;
+private String last;
+private int ID;
+private Course[] course;
+private int length=1000;
+private String row;
+private int count=0;
+private float average;
+private int[] sGrades;
+private float bonus;
 
 public Student(String first,String last, int id) {
-this.first=first;
-this.last=last;
-this.ID=id;
-course=new Course[50];
+	this.first=first;
+	this.last=last;
+	this.ID=id;
+    this.course=new Course[50];
+    this.sGrades = new int[50];
 
 }
-public void addgrade(int grade) {
-	this.grade=grade;
+public String getFirst() {
+	return first;
 }
+public String getLast() {
+	return last;
+}
+public void addSgrade(int code, int grade) {
+	sGrades[code-10]=grade;
+}
+public void setBonus()
+{ int register=0;
+  for(int i=0;i<50;i++)
+  {
+	  if(this.course[i]!=null)
+		  register++;}
+  this.bonus=(this.count/register)*10;
+  }
+
+public float getBonus()
+{ 
+	return this.bonus;
+  }
+
+public float getFinalscore()
+{ this.setBonus();
+  return this.getAverage()+ this.getBonus();
+	}
+
+
+
 
 public String toString() {
-	return this.ID+ " "+ this.first+ " "+ this.last;
+	return this.getID()+ " "+ this.first+ " "+ this.last;
 }
 	
 public void enroll(Course c) {
 	
-	for(int i=0;i<course.length;i++) {
-		if(course[i]==null) {
-			course[i]=c;
+	for(int i=0;i<getCourse().length;i++) {
+		if(getCourse()[i]==null) {
+			getCourse()[i]=c;
 			break;
 		}
 	}
 }
 
 public String list() {
-	if(course[0]!=null)
-		row=course[0].toString()+ "\n";
-	for(int i=1;course[i]!=null;i++) {
-		row=row+course[i].toString()+ "\n";
+	if(getCourse()[0]!=null)
+		row=getCourse()[0].toString()+ "\n";
+	for(int i=1;getCourse()[i]!=null;i++) {
+		row=row+getCourse()[i].toString()+ "\n";
 	}
 	
 	return row;
 }
+public int getID() {
+	return ID;
+}
 
-	
+public void setSAverage () {
+	float sum=0, avg=0;
+ 	int cnt=0;
+for (int i=0; i<50; ++i) {
+	if (this.sGrades[i] != 0) {
+		sum += this.sGrades[i];
+		cnt++;
+	} else {
+		sum += 0;
+	}
+}
+if(cnt==0)
+	this.average=0;
+
+avg = sum / cnt;
+this.average=avg;
+
+}
+
+public Course[] getCourse() {
+	return course;
+}
+public void addCount() {
+	this.count++;
+}
+public int getCount() {
+	return this.count;
+}
+
+public float getAverage() {
+	this.setSAverage();
+	return this.average;
+
+}
+
 	
 }

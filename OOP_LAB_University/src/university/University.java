@@ -16,8 +16,8 @@ public class University {
     private String first;
     private String last;
     
-    public Student[] students=new Student[INIT_Student];
-    public Course[] courses=new Course[INIT_Course];
+    protected  Student[] students;
+    protected  Course[] courses;
     private Student stmp;
     private Course ctmp;
     
@@ -28,6 +28,8 @@ public class University {
 	public University(String name){
 		//TODO: to be implemented
 		this.name=name;
+		students=new Student[1000];
+	    courses=new Course[50];
 	}
 	
 	/**
@@ -132,14 +134,14 @@ public class University {
 	public void register(int studentID, int courseCode){
 		//TODO: to be implemented
 		for(int i=0;i<1000;i++) {
-			if(students[i].ID==studentID)
+			if(students[i].getID()==studentID)
 			{ stmp=students[i];
 			  break;
 			}
 		}
 		
 		for(int i=0;i<50;i++) {
-			if(courses[i].course_id==courseCode)
+			if(courses[i].getcourse_id()==courseCode)
 			{ ctmp=courses[i];
 			  break;
 			}
@@ -161,7 +163,7 @@ public class University {
 		//TODO: to be implemented
 		
 		for(int i=0;i<50;i++) {
-			if(courses[i].course_id==courseCode)
+			if(courses[i].getcourse_id()==courseCode)
 			{
 				ctmp=courses[i];
 				break;
@@ -169,6 +171,7 @@ public class University {
 		}
 		return ctmp.list();
 	}
+	
 
 	/**
 	 * Retrieves the study plan for a student.
@@ -185,7 +188,7 @@ public class University {
 		//TODO: to be implemented
 		
 		for(int i=0;i<1000;i++) {
-			if(students[i].ID==studentID)
+			if(students[i].getID()==studentID)
 			{
 				stmp=students[i];
 				break;
