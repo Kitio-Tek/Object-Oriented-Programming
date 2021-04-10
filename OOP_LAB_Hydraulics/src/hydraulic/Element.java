@@ -8,13 +8,21 @@ package hydraulic;
  * using the method {@link #connect(Element) connect()}.
  */
 public abstract class Element {
-	
+	private String name=new String();
+	private Element[] outputs;
 	/**
 	 * Constructor
 	 * @param name the name of the element
 	 */
 	public Element(String name){
 		// TODO: to be implemented
+		this(name,1);
+	}
+	
+	public Element(String name,int size){
+		// TODO: to be implemented
+		this.name=name;
+		outputs=new Element[size];
 	}
 
 	/**
@@ -23,7 +31,7 @@ public abstract class Element {
 	 */
 	public String getName(){
 		// TODO: to be implemented
-		return null;
+		return this.name ;
 	}
 	
 	/**
@@ -33,6 +41,11 @@ public abstract class Element {
 	 */
 	public void connect(Element elem){
 		// TODO: to be implemented
+		connect(elem,0);
+	}
+	public void connect(Element elem, int noutput){
+		//TODO: complete
+			outputs[noutput]=elem;
 	}
 	
 	/**
@@ -41,7 +54,20 @@ public abstract class Element {
 	 */
 	public Element getOutput(){
 		// TODO: to be implemented
-		return null;
+		return outputs[0];
 	}
+	 
+	public Element[] getOutputs(){
+		//TODO: complete
+     return outputs;
+}
+	abstract void simulate(double inFlow, SimulationObserver observer);
+/**
+ * connect one of the outputs of this split to a
+ * downstream component.
+ * 
+ * @param elem  the element to be connected downstream
+ * @param noutput the output number to be used to connect the element
+ */
 	
 }

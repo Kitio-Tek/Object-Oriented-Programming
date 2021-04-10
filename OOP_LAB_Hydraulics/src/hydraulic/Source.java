@@ -7,7 +7,7 @@ package hydraulic;
  * {@link #setFlow(double) setFlow()}.
  */
 public class Source extends Element {
-
+    private double flow ;
 	public Source(String name) {
 		super(name);
 		//TODO: complete
@@ -19,7 +19,14 @@ public class Source extends Element {
 	 * @param flow
 	 */
 	public void setFlow(double flow){
-		//TODO: complete
+	   
+		this.flow=flow;
+	}
+	@Override
+	void simulate(double inFlow,SimulationObserver observer)
+	{
+		observer.notifyFlow("Source", getName(), SimulationObserver.NO_FLOW, flow);
+		getOutput().simulate(flow, observer);
 	}
 	
 }

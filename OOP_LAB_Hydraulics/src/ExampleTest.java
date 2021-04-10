@@ -45,7 +45,7 @@ public class ExampleTest {
 		
 		assertSame("Output of src should be r",r,src.getOutput());
 		
-		// 3) simulation parameters are then defined
+		   // 3) simulation parameters are then defined
 		src.setFlow(20);
 		r.setOpen(true);
 		
