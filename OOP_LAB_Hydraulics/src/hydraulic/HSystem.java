@@ -23,6 +23,7 @@ public class HSystem {
 		/*elements[nElement++]=elem;*/
 		
 		elements.add(elem);
+		
 	}
 	
 	/**

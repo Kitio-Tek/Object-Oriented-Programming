@@ -10,6 +10,8 @@ package hydraulic;
 public abstract class Element {
 	protected String name=new String();
 	protected Element[] outputs;
+	protected Element input;
+	protected int length;
 	/**
 	 * Constructor
 	 * @param name the name of the element
@@ -46,6 +48,8 @@ public abstract class Element {
 	public void connect(Element elem, int noutput){
 		//TODO: complete
 			outputs[noutput]=elem;
+			elem.input=this;
+			length++;
 	}
 	
 	/**
@@ -55,6 +59,10 @@ public abstract class Element {
 	public Element getOutput(){
 		// TODO: to be implemented
 		return outputs[0];
+	}
+	public Element getInput()
+	{
+		return input;
 	}
 	 
 	public Element[] getOutputs(){
@@ -66,7 +74,7 @@ public abstract class Element {
 }  
 	public int getSize(){
 	//TODO: complete
-    return outputs.length;
+    return length;
 }
 	
 	abstract void simulate(double inFlow, SimulationObserver observer);

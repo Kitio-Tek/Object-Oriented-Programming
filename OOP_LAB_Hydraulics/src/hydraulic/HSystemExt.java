@@ -29,6 +29,22 @@ public class HSystemExt extends HSystem{
 	 */
 	public void deleteElement(String name) {
 		// TODO: to be implemented
+		
+		for(Element e:elements) {
+			if(e.getName().equals(name) && e!=null)
+			{
+				if(e instanceof Split && e.getSize()>1)
+				 return;
+				
+				Element input=e.getInput();
+				Element output=e.getOutput();
+				
+				if(input!=null) input.connect(output);
+				
+               elements.remove(e);
+				return;
+			}}
+		return;
 	}
 
 	/**

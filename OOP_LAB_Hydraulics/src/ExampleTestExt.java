@@ -40,6 +40,7 @@ public class ExampleTestExt {
 		
 		assertSame("Output of src should be r",r,src.getOutput());
 		
+		
 		// 3) simulation parameters are then defined
 		src.setFlow(20);
 		r.setOpen(true);
@@ -54,11 +55,11 @@ public class ExampleTestExt {
 		System.out.println(s.layout());
 		
 		// 6) delete the tap
-		/*s.deleteElement("R");
+		s.deleteElement("R");
 		assertSame("Output of src should be t",t,src.getOutput());
 		System.out.println(s.layout());
 		
-		// 7) simulate with check of simulation parameters against 
+		/*// 7) simulate with check of simulation parameters against 
 		//	  the maximum flow rate of elements
 		// WARNING: first make elements classes extend ElementExt, then uncomment the following lines
 //		t.setMaxFlow(20);
