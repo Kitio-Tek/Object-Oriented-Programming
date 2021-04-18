@@ -54,7 +54,7 @@ public class ExampleTestExt {
 		System.out.println(s.layout());
 		
 		// 6) delete the tap
-		s.deleteElement("R");
+		/*s.deleteElement("R");
 		assertSame("Output of src should be t",t,src.getOutput());
 		System.out.println(s.layout());
 		
@@ -65,6 +65,6 @@ public class ExampleTestExt {
 //		sink1.setMaxFlow(10);
 //		sink2.setMaxFlow(15);
 //		sink3.setMaxFlow(5); // should raise error message, inFlow 8.0 but maxFlow 5.0 
-		s.simulate(obs,true);
+		s.simulate(obs,true);*/
 	}
 }

@@ -22,6 +22,7 @@ public class Source extends Element {
 	   
 		this.flow=flow;
 	}
+	
 	@Override
 	void simulate(double inFlow,SimulationObserver observer)
 	{
@@ -29,4 +30,10 @@ public class Source extends Element {
 		getOutput().simulate(flow, observer);
 	}
 	
+	@Override
+	public void printLayout(StringBuffer string) {
+		string.append(" ["+ this.getName()+"] "+ "Source" +" "+"-> ");
+		getOutput().printLayout(string);
+		
+	}
 }

@@ -12,7 +12,16 @@ public class HSystemExt extends HSystem{
 	 */
 	public String layout(){
 		// TODO: to be implemented
-		return null;
+		StringBuffer string=new StringBuffer();
+		
+		for(Element e:elements) {
+			if(e instanceof Source ) {
+				e.printLayout(string);
+			}
+		}
+		
+		
+		return string.toString();
 	}
 	
 	/**

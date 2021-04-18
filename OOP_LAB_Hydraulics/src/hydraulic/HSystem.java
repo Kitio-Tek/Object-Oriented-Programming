@@ -12,7 +12,7 @@ import java.util.List;
 public class HSystem {
 	/*private Element[] elements= new Element[100];*/
 	private int nElement=0;
-	 private List<Element> elements=new ArrayList<>();
+	protected List<Element> elements=new ArrayList<>();
 	
 	/**
 	 * Adds a new element to the system
@@ -57,6 +57,8 @@ public class HSystem {
 		for(Element e:elements) {
 			if(e instanceof Source ) {
 				e.simulate(-1,observer);
+				
+				
 			}
 		}
 		

@@ -26,4 +26,11 @@ public class Sink extends Element {
 		observer.notifyFlow("Sink", getName(), inFlow, SimulationObserver.NO_FLOW);
 		
 	}
+	
+	@Override
+	public void printLayout(StringBuffer string) {
+		string.append(" ["+ this.getName()+"] "+ "Sink");
+		
+	}
+
 }

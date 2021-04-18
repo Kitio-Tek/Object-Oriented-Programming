@@ -8,8 +8,8 @@ package hydraulic;
  * using the method {@link #connect(Element) connect()}.
  */
 public abstract class Element {
-	private String name=new String();
-	private Element[] outputs;
+	protected String name=new String();
+	protected Element[] outputs;
 	/**
 	 * Constructor
 	 * @param name the name of the element
@@ -59,9 +59,18 @@ public abstract class Element {
 	 
 	public Element[] getOutputs(){
 		//TODO: complete
+	if(outputs.length!=0)
      return outputs;
+	
+	return null;
+}  
+	public int getSize(){
+	//TODO: complete
+    return outputs.length;
 }
+	
 	abstract void simulate(double inFlow, SimulationObserver observer);
+	abstract void printLayout(StringBuffer string);
 /**
  * connect one of the outputs of this split to a
  * downstream component.

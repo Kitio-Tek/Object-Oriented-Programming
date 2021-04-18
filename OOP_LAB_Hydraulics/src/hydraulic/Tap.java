@@ -27,7 +27,15 @@ public class Tap extends Element {
 	void simulate(double inFlow,SimulationObserver observer)
 	{ double outFlow=open? inFlow:0.0;
 		observer.notifyFlow("Tap", getName(), inFlow, outFlow);
+		
 		getOutput().simulate(outFlow, observer);
 	}
 	
+	@Override
+	public void printLayout(StringBuffer string) {
+		string.append(" ["+ this.getName()+"] "+ "Tap" +" "+"-> ");
+		getOutput().printLayout(string);
+		
+	}
+
 }
