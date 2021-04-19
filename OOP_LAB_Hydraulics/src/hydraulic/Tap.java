@@ -7,7 +7,7 @@ package hydraulic;
  * {@link #setOpen(boolean) setOpen()}.
  */
 
-public class Tap extends Element {
+public class Tap extends ElementExt {
   private boolean open;
 	public Tap(String name) {
 		super(name);
@@ -31,6 +31,21 @@ public class Tap extends Element {
 		getOutput().simulate(outFlow, observer);
 	}
 	
+	@Override
+	public void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck) {
+		// TODO: to be implemented
+		if(enableMaxFlowCheck)
+		{
+			if(maxflow>=inFlow)
+			{ double outFlow=open? inFlow:0.0;
+			observer.notifyFlow("Tap", getName(), inFlow, outFlow);
+			
+			getOutput().simulate(outFlow, observer,enableMaxFlowCheck);
+       }
+			else
+				observer.notifyFlowError("Tap",getName(), inFlow,maxflow);}
+		
+	}
 	@Override
 	public void printLayout(StringBuffer string) {
 		string.append(" ["+ this.getName()+"] "+ "Tap" +" "+"-> ");
