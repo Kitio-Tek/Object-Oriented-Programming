@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * receive a stream that is half the input stream of the split.
  */
 
-public class Split extends Element  {
+public class Split extends ElementExt  {
 
 	/**
 	 * Constructor
@@ -34,6 +34,24 @@ public class Split extends Element  {
 		{ if(e!=null)
 			e.simulate(outFlow, observer);
 		}
+	}
+	
+	@Override
+	public void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck) {
+		// TODO: to be implemented
+		if(enableMaxFlowCheck)
+		{
+			if(maxflow>=inFlow)
+			{ double outFlow=inFlow/2;
+			observer.notifyFlow("Split", getName(), inFlow, outFlow,outFlow);
+			for(Element e:getOutputs())
+			{ if(e!=null)
+				e.simulate(outFlow, observer,enableMaxFlowCheck);
+			}
+
+       }
+			else
+				observer.notifyFlowError("Split",getName(), inFlow,maxflow);}
 	}
     
 	/**
