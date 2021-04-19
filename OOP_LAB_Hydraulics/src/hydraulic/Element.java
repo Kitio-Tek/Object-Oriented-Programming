@@ -12,6 +12,7 @@ public abstract class Element {
 	protected Element[] outputs;
 	protected Element input;
 	protected int length;
+	protected double flow ;
 	/**
 	 * Constructor
 	 * @param name the name of the element
@@ -76,9 +77,15 @@ public abstract class Element {
 	//TODO: complete
     return length;
 }
+	public void setFlow(double flow){
+		   
+		this.flow=flow;
+	}
 	
 	abstract void simulate(double inFlow, SimulationObserver observer);
 	abstract void printLayout(StringBuffer string);
+	abstract void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck);
+	
 /**
  * connect one of the outputs of this split to a
  * downstream component.
