@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 public class Multisplit extends Split {
  double proportion[];
+ 
 	/**
 	 * Constructor
 	 * @param name
@@ -26,13 +27,7 @@ public class Multisplit extends Split {
 	 * returns the downstream elements
 	 * @return array containing the two downstream element
 	 */
-	/*@Override
-    public Element[] getOutputs(){
-    	//TODO: complete
-    	if(outputs.length==0) return outputs;
-       
-    	return null;
-    }*/
+	
 
     /**
      * connect one of the outputs of this split to a
@@ -68,7 +63,7 @@ public class Multisplit extends Split {
 		  outFlow[i]=proportion[i]*inFlow;
 	
 	 int j=0; 
-	  observer.notifyFlow("Split", getName(), inFlow, outFlow);
+	  observer.notifyFlow("Multi Split", getName(), inFlow, outFlow);
 		for(Element e:getOutputs())
 		{   
 			e.simulate(outFlow[j], observer);
@@ -76,6 +71,31 @@ public class Multisplit extends Split {
 			
 		}
 		
+	}
+	@Override
+	public void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck) {
+		// TODO: to be implemented
+		if(enableMaxFlowCheck)
+		{
+			if(maxflow>=inFlow)
+			{ 
+				double[] outFlow=new double[proportion.length];
+				
+				  for(int i=0;i<proportion.length;i++)
+					  outFlow[i]=proportion[i]*inFlow;
+				
+				 int j=0; 
+				  observer.notifyFlow("Multi Split", getName(), inFlow, outFlow);
+					for(Element e:getOutputs())
+					{   
+						e.simulate(outFlow[j], observer,enableMaxFlowCheck);
+						j++;
+						
+					}
+       }
+			else
+				observer.notifyFlowError("Multi Split",getName(), inFlow,maxflow);}
+
 	}
 	
 	@Override
