@@ -6,8 +6,8 @@ package hydraulic;
  * The status of the source is defined through the method
  * {@link #setFlow(double) setFlow()}.
  */
-public class Source extends Element {
-    private double flow ;
+public class Source extends ElementExt {
+    
 	public Source(String name) {
 		super(name);
 		//TODO: complete
@@ -18,10 +18,7 @@ public class Source extends Element {
 	 * 
 	 * @param flow
 	 */
-	public void setFlow(double flow){
-	   
-		this.flow=flow;
-	}
+	
 	
 	@Override
 	void simulate(double inFlow,SimulationObserver observer)
@@ -31,9 +28,23 @@ public class Source extends Element {
 	}
 	
 	@Override
+	public void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck) {
+		// TODO: to be implemented
+		if(enableMaxFlowCheck) {
+		observer.notifyFlow("Source", getName(), SimulationObserver.NO_FLOW, flow);
+		getOutput().simulate(flow, observer,enableMaxFlowCheck);
+		}
+
+	}
+	
+	@Override
 	public void printLayout(StringBuffer string) {
 		string.append(" ["+ this.getName()+"] "+ "Source" +" "+"-> ");
 		getOutput().printLayout(string);
 		
+	}
+	@Override
+	public void setMaxFlow(double maxFlow) {
+		// TODO: to be implemented
 	}
 }
