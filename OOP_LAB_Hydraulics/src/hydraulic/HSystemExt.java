@@ -27,14 +27,14 @@ public class HSystemExt extends HSystem{
 	/**
 	 * Deletes a previously added element with the given name from the system
 	 */
-	public void deleteElement(String name) {
+	public boolean deleteElement(String name) {
 		// TODO: to be implemented
 		
 		for(Element e:elements) {
 			if(e.getName().equals(name) && e!=null)
 			{
 				if(e instanceof Split && e.getSize()>1)
-				 return;
+				 return false;
 				
 				Element input=e.getInput();
 				Element output=e.getOutput();
@@ -42,9 +42,9 @@ public class HSystemExt extends HSystem{
 				if(input!=null) input.connect(output);
 				
                elements.remove(e);
-				return;
+				return true;
 			}}
-		return;
+		return false;
 	}
 
 	/**
