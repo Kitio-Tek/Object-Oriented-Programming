@@ -51,8 +51,18 @@ public class HSystemExt extends HSystem{
 	 * starts the simulation of the system; if enableMaxFlowCheck is true,
 	 * checks also the elements maximum flows against the input flow
 	 */
+
+
 	public void simulate(SimulationObserverExt observer, boolean enableMaxFlowCheck) {
 		// TODO: to be implemented
+		if(enableMaxFlowCheck) {
+		for(Element e:elements) {
+			if(e instanceof Source ) {
+				e.simulate(-1,observer,enableMaxFlowCheck);
+				
+				
+			}
+		}}
 	}
 	
 }
