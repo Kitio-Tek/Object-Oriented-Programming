@@ -59,13 +59,13 @@ public class ExampleTestExt {
 		assertSame("Output of src should be t",t,src.getOutput());
 		System.out.println(s.layout());
 		
-		/*// 7) simulate with check of simulation parameters against 
+		// 7) simulate with check of simulation parameters against 
 		//	  the maximum flow rate of elements
 		// WARNING: first make elements classes extend ElementExt, then uncomment the following lines
-//		t.setMaxFlow(20);
-//		sink1.setMaxFlow(10);
-//		sink2.setMaxFlow(15);
-//		sink3.setMaxFlow(5); // should raise error message, inFlow 8.0 but maxFlow 5.0 
-		s.simulate(obs,true);*/
+	t.setMaxFlow(20);
+	sink1.setMaxFlow(10);
+	sink2.setMaxFlow(15);
+	sink3.setMaxFlow(5); // should raise error message, inFlow 8.0 but maxFlow 5.0 
+		s.simulate(obs,true);
 	}
 }
