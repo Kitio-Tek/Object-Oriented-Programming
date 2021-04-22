@@ -35,15 +35,17 @@ public class Sink extends ElementExt {
 		if(maxflow>=inFlow)
 		{ observer.notifyFlow("Sink", getName(), inFlow, SimulationObserver.NO_FLOW);
     }
-		else
-			observer.notifyFlowError("Sink",getName(), inFlow,maxflow);}
+		else {
+			observer.notifyFlowError("Sink",getName(), inFlow,maxflow);
+		}
+		}
 
 		
 	}
 	
 	@Override
 	public void printLayout(StringBuffer string) {
-		string.append(" ["+ this.getName()+"] "+ "Sink");
+		string.append("["+ this.getName()+"]"+ "Sink");
 		
 	}
 

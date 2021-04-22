@@ -39,8 +39,13 @@ public class Source extends ElementExt {
 	
 	@Override
 	public void printLayout(StringBuffer string) {
-		string.append(" ["+ this.getName()+"] "+ "Source" +" "+"-> ");
-		getOutput().printLayout(string);
+		if(getOutput()!=null)
+		{string.append(" ["+ this.getName()+"]"+ "Source" +" "+"-> ");
+		getOutput().printLayout(string);}
+		
+		else
+			string.append(" ["+ this.getName()+"]" + "Tap");
+		    string.append(" * ");
 		
 	}
 	@Override

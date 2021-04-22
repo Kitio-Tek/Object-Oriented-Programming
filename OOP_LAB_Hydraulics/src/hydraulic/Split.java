@@ -60,7 +60,7 @@ public class Split extends ElementExt  {
 	 */
 	@Override
 	public void printLayout(StringBuffer string) {
-		string.append(" ["+ this.getName()+"] "+ "Split");
+		string.append("["+ this.getName()+"]"+ "Split");
 		char[] space=new char[string.length()];
 		Arrays.fill(space,' ');
 		int i=0;

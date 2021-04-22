@@ -34,23 +34,34 @@ public class Tap extends ElementExt {
 	@Override
 	public void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck) {
 		// TODO: to be implemented
+		double outFlow=open? inFlow:0.0;
+		
 		if(enableMaxFlowCheck)
 		{
 			if(maxflow>=inFlow)
-			{ double outFlow=open? inFlow:0.0;
+			{ 
 			observer.notifyFlow("Tap", getName(), inFlow, outFlow);
 			
 			getOutput().simulate(outFlow, observer,enableMaxFlowCheck);
        }
-			else
-				observer.notifyFlowError("Tap",getName(), inFlow,maxflow);}
+			else {
+				observer.notifyFlowError("Tap",getName(), inFlow,maxflow);
+				getOutput().simulate(outFlow, observer,enableMaxFlowCheck);
+				
+				}}
 		
 	}
 	@Override
 	public void printLayout(StringBuffer string) {
-		string.append(" ["+ this.getName()+"] "+ "Tap" +" "+"-> ");
-		getOutput().printLayout(string);
 		
+		if(getOutput()!=null)
+		    { string.append("["+ this.getName()+"]"+ "Tap" +" "+"-> ");
+		      getOutput().printLayout(string);
+		  }
+		
+		else
+			string.append(" ["+ this.getName()+"]" + "Tap");
+		    string.append(" * ");		
 	}
 
 }

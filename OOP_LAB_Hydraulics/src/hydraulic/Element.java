@@ -46,12 +46,21 @@ public abstract class Element {
 		// TODO: to be implemented
 		connect(elem,0);
 	}
+	
 	public void connect(Element elem, int noutput){
 		//TODO: complete
 			outputs[noutput]=elem;
+			if(elem==null)
+				return;
 			elem.input=this;
 			length++;
 	}
+	public void setInput(Element elem){
+		//TODO: complete
+			input=elem;
+	
+	}
+
 	
 	/**
 	 * Retrieves the element connected downstream of this
@@ -85,7 +94,27 @@ public abstract class Element {
 	abstract void simulate(double inFlow, SimulationObserver observer);
 	abstract void printLayout(StringBuffer string);
 	abstract void simulate(double inFlow,SimulationObserverExt observer, boolean enableMaxFlowCheck);
+
+	  boolean replacewith_Split(Element e, Element output) {
+		  for(int i=0;i<outputs.length;i++)
+		  {
+			  if(outputs[i]==e)
+			  {
+				  outputs[i]=output;
+				  if(output!=null)
+					 output.input=this;
+				  else
+				     length--;
+				  
+				  ;
+				  
+				  return true;
+			  }
+		  }
+		  return false;
+	  }
 	
+	  
 /**
  * connect one of the outputs of this split to a
  * downstream component.

@@ -39,10 +39,17 @@ public class HSystemExt extends HSystem{
 				Element input=e.getInput();
 				Element output=e.getOutput();
 				
-				if(input!=null) input.connect(output);
+				/*if(input!=null ) { input.connect(output);
+				}*/
+			
+				 
+				 elements.remove(e);
+				  return input.replacewith_Split(e,output);
 				
-               elements.remove(e);
-				return true;
+				
+				                
+               
+				
 			}}
 		return false;
 	}

@@ -100,7 +100,7 @@ public class Multisplit extends Split {
 	
 	@Override
 	public void printLayout(StringBuffer string) {
-		string.append(" ["+ this.getName()+"] "+ "Multi Split");
+		string.append("["+ this.getName()+"]"+ "Multi Split");
 		char[] space=new char[string.length()];
 		Arrays.fill(space,' ');
 		int i=0;
