@@ -1,5 +1,7 @@
 package diet;
 
+import java.util.SortedMap;
+
 /**
  * Represents a recipe of the diet.
  * 
@@ -10,7 +12,12 @@ package diet;
  *
  */
 public class Recipe implements NutritionalElement {
-    
+    private String name;
+    private SortedMap<String,NutritionalElement> map;
+    private double calories=0.0, proteins=0.0,  carbs=0.0;
+	private double fat=0.0;
+	private double Total_quantity=0.0;
+	private StringBuffer layout=new StringBuffer();
 
 	/**
 	 * Adds a given quantity of an ingredient to the recipe.
@@ -20,33 +27,49 @@ public class Recipe implements NutritionalElement {
 	 * @param quantity the amount in grams of the raw material to be used
 	 * @return the same Recipe object, it allows method chaining.
 	 */
+	public Recipe(String name, SortedMap<String,NutritionalElement> map)
+	{ this.name=name;
+	  this.map=map;
+		
+	}
 	public Recipe addIngredient(String material, double quantity) {
-		return null;
+		NutritionalElement rawMaterial=map.get(material);
+		
+		calories += rawMaterial.getCalories()*quantity/100;
+		proteins +=rawMaterial.getProteins()*quantity/100; 
+		carbs += rawMaterial.getCarbs()*quantity/100;
+		fat += rawMaterial.getFat()*quantity/100;
+		Total_quantity+=quantity;
+		
+		layout.append(String.format(" %s: %.1f\n", material, quantity));
+		
+		return this;
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return name;
 	}
 
 	@Override
 	public double getCalories() {
-		return 0.0;
+		return calories*100/Total_quantity;
 	}
 
 	@Override
 	public double getProteins() {
-		return 0.0;
+		return proteins*100/Total_quantity;
 	}
 
 	@Override
 	public double getCarbs() {
-		return 0.0;
+		return carbs*100/Total_quantity;
 	}
 
 	@Override
 	public double getFat() {
-		return 0.0;
+		return fat*100/Total_quantity;
+
 	}
 
 	/**
@@ -78,6 +101,6 @@ public class Recipe implements NutritionalElement {
 	 */
 	@Override
 	public String toString() {
-		return null;
+		return layout.toString();
 	}
 }

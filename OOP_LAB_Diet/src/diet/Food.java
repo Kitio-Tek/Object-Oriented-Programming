@@ -1,6 +1,8 @@
 package diet;
 
 import java.util.Collection;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 /**
@@ -9,7 +11,11 @@ import java.util.Collection;
  *
  */
 public class Food {
-
+ private SortedMap<String,NutritionalElement> rawMaterials=new TreeMap<>();
+ private SortedMap<String,NutritionalElement> product=new TreeMap<>();
+ private SortedMap<String,NutritionalElement> recipes=new TreeMap<>();
+ private SortedMap<String,NutritionalElement> menu=new TreeMap<>();
+	
 	/**
 	 * Define a new raw material.
 	 * 
@@ -25,6 +31,9 @@ public class Food {
 									  double proteins,
 									  double carbs,
 									  double fat){
+		NutritionalElement rawMaterial=new SimpleElement(name,calories,proteins,carbs,fat,true);
+		rawMaterials.put(name,rawMaterial);
+		
 	}
 	
 	/**
@@ -33,7 +42,7 @@ public class Food {
 	 * @return collection of raw materials though the {@link NutritionalElement} interface
 	 */
 	public Collection<NutritionalElement> rawMaterials(){
-		return null;
+		return rawMaterials.values();
 	}
 	
 	/**
@@ -44,7 +53,7 @@ public class Food {
 	 * @return  a raw material though the {@link NutritionalElement} interface
 	 */
 	public NutritionalElement getRawMaterial(String name){
-		return null;
+		return rawMaterials.get(name);
 	}
 
 	/**
@@ -62,6 +71,8 @@ public class Food {
 								  double proteins,
 								  double carbs,
 								  double fat){
+		NutritionalElement rawMaterial=new SimpleElement(name,calories,proteins,carbs,fat,false);
+		product.put(name,rawMaterial);
 	}
 	
 	/**
@@ -70,7 +81,7 @@ public class Food {
 	 * @return collection of products though the {@link NutritionalElement} interface
 	 */
 	public Collection<NutritionalElement> products(){
-		return null;
+		return product.values();
 	}
 	
 	/**
@@ -79,7 +90,7 @@ public class Food {
 	 * @return  a product though the {@link NutritionalElement} interface
 	 */
 	public NutritionalElement getProduct(String name){
-		return null;
+		return product.get(name);
 	}
 	
 	/**
@@ -90,7 +101,10 @@ public class Food {
 	 * @return the newly created Recipe object
 	 */
 	public Recipe createRecipe(String name) {
-		return null;
+		Recipe r=new Recipe(name,rawMaterials);
+		
+		recipes.put(name, r);
+		return r;
 	}
 	
 	/**
@@ -99,7 +113,7 @@ public class Food {
 	 * @return collection of recipes though the {@link NutritionalElement} interface
 	 */
 	public Collection<NutritionalElement> recipes(){
-		return null;
+		return recipes.values();
 	}
 	
 	/**
@@ -110,7 +124,7 @@ public class Food {
 	 * @return  a recipe though the {@link NutritionalElement} interface
 	 */
 	public NutritionalElement getRecipe(String name){		
-		return null;
+		return recipes.get(name);
 	}
 	
 	/**
@@ -121,7 +135,11 @@ public class Food {
 	 * @return the newly created menu
 	 */
 	public Menu createMenu(String name) {
-		return null;
+      Menu m=new Menu(name,this);
+		
+		menu.put(name, m);
+		return m;
+		
 	}
 	
 }

@@ -1,5 +1,7 @@
 package diet;
 
+import java.util.SortedMap;
+
 /**
  * Represents a complete menu.
  * 
@@ -17,9 +19,28 @@ public class Menu implements NutritionalElement {
 	 * @param recipe the name of the recipe to be used as ingredient
 	 * @param quantity the amount in grams of the recipe to be used
 	 * @return the same Menu to allow method chaining
+	 * 
 	 */
+	private String name;
+	private Food food;
+	private double calories=0.0, proteins=0.0,  carbs=0.0;
+	private double fat=0.0;
+	
+	
+	public  Menu(String name, Food food) {
+		this.name=name;
+		this.food=food;
+	}
+	
 	public Menu addRecipe(String recipe, double quantity) {
-		return null;
+       NutritionalElement r=food.getRecipe(recipe);
+		
+		calories += r.getCalories()*quantity/100;
+		proteins +=r.getProteins()*quantity/100; 
+		carbs += r.getCarbs()*quantity/100;
+		fat += r.getFat()*quantity/100;
+		
+		return this;
 	}
 
 	/**
@@ -31,7 +52,15 @@ public class Menu implements NutritionalElement {
 	 * @return the same Menu to allow method chaining
 	 */
 	public Menu addProduct(String product) {
-		return null;
+   NutritionalElement p=food.getProduct(product);
+		
+		calories += p.getCalories();
+		proteins +=p.getProteins(); 
+		carbs += p.getCarbs();
+		fat += p.getFat();
+		
+		return this;
+
 	}
 
 	/**
@@ -39,7 +68,7 @@ public class Menu implements NutritionalElement {
 	 */
 	@Override
 	public String getName() {
-		return null;
+		return name;
 	}
 
 	/**
@@ -47,7 +76,7 @@ public class Menu implements NutritionalElement {
 	 */
 	@Override
 	public double getCalories() {
-		return 0.0;
+		return calories;
 	}
 
 	/**
@@ -55,7 +84,7 @@ public class Menu implements NutritionalElement {
 	 */
 	@Override
 	public double getProteins() {
-		return 0.0;
+		return proteins;
 	}
 
 	/**
@@ -63,7 +92,7 @@ public class Menu implements NutritionalElement {
 	 */
 	@Override
 	public double getCarbs() {
-		return 0.0;
+		return carbs;
 	}
 
 	/**
@@ -71,7 +100,7 @@ public class Menu implements NutritionalElement {
 	 */
 	@Override
 	public double getFat() {
-		return 0.0;
+		return 	fat;
 	}
 
 	/**
