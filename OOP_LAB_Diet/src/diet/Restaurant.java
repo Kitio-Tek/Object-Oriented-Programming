@@ -1,4 +1,10 @@
 package diet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import diet.Order.OrderStatus;
 
 /**
@@ -6,7 +12,10 @@ import diet.Order.OrderStatus;
  *
  */
 public class Restaurant {
-	
+	private String name;
+	private Food food;
+	private SortedMap<String,NutritionalElement> menu=new TreeMap<>();
+	public List<WorkingHours> workingHours=new ArrayList<>();
 	/**
 	 * Constructor for a new restaurant.
 	 * 
@@ -18,6 +27,9 @@ public class Restaurant {
 	 */
 	public Restaurant(String name, Food food) {
 		// TODO: implement constructor
+		this.name=name;
+		this.food=food;
+
 	}
 	
 	/**
@@ -26,7 +38,7 @@ public class Restaurant {
 	 * @return name
 	 */
 	public String getName() {
-		return null;
+		return name;
 	}
 	
 	/**
@@ -42,7 +54,12 @@ public class Restaurant {
 	 * @param hm a list of opening hours
 	 */
 	public void setHours(String ... hm) {
+		for(int i=0;i<=hm.length;i=+2)
+			workingHours.add(new WorkingHours(hm[i],hm[i+1]));
+			
+
 	}
+	
 	
 	public Menu getMenu(String name) {
 		return null;
@@ -56,7 +73,15 @@ public class Restaurant {
 	 * @return the newly created menu
 	 */
 	public Menu createMenu(String name) {
-		return null;
+        Menu m=new Menu(name,food);
+		
+		menu.put(name, m);
+		return m;
+	}
+
+	
+	public List<WorkingHours> getHours() {
+		return workingHours;
 	}
 
 	/**

@@ -1,13 +1,49 @@
 package diet;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Represents an order in the take-away system
  */
 public class Order {
- 
+    private User user;
+    private Restaurant restaurant;
+    private List<Menu_quantity> menu_list=new ArrayList<>();
+    private String tmp;
 	/**
 	 * Defines the possible order status
 	 */
+	private OrderStatus orderStatus=OrderStatus.ORDERED;
+	private PaymentMethod paymentMethod=PaymentMethod.CASH;
+	private String delivery_time;
+	
+	public Order(User user, Restaurant restaurant, int h, int m) {
+	this.user=user;
+	this.restaurant=restaurant;
+	this.tmp=h+":"+m;
+	restaurant.workingHours.sort(Comparator.comparing(WorkingHours::getOpen).thenComparing(WorkingHours::getClose));
+
+	for(WorkingHours w:restaurant.workingHours) {
+		if(w.includes(tmp)) {
+			this.delivery_time=tmp;
+			return;
+		}
+	}
+	for(WorkingHours w:restaurant.workingHours) {
+		if(w.getOpen().compareTo(tmp)>0) {
+			this.delivery_time=w.getOpen();
+			return;
+		}
+	}
+	this.delivery_time=restaurant.workingHours.get(0).getOpen();
+	
+	
+	}
 	public enum OrderStatus {
 		ORDERED, READY, DELIVERED;
 	}
@@ -32,6 +68,7 @@ public class Order {
 	 * @param method payment method
 	 */
 	public void setPaymentMethod(PaymentMethod method) {
+		paymentMethod=method;
 	}
 	
 	/**
@@ -40,7 +77,7 @@ public class Order {
 	 * @return payment method
 	 */
 	public PaymentMethod getPaymentMethod() {
-		return null;
+		return paymentMethod;
 	}
 	
 	/**
@@ -48,6 +85,7 @@ public class Order {
 	 * @param newStatus order status
 	 */
 	public void setStatus(OrderStatus newStatus) {
+		orderStatus=newStatus;
 	}
 	
 	/**
@@ -55,7 +93,7 @@ public class Order {
 	 * @return order status
 	 */
 	public OrderStatus getStatus(){
-		return null;
+		return orderStatus;
 	}
 	
 	/**
@@ -68,8 +106,18 @@ public class Order {
 	 * @return this order to enable method chaining
 	 */
 	public Order addMenus(String menu, int quantity) {
-
-		return this;
+		
+		
+		for(Menu_quantity i:menu_list)
+		{
+			if(i!=null && i.getMenu().equals(menu))
+		{        i.setQuantity(quantity);
+				 return this;
+				}
+		}
+		menu_list.add(new Menu_quantity(menu,quantity));
+		menu_list.sort(Comparator.comparing(Menu_quantity::getMenu));
+			return this;
 	}
 	
 	/**
@@ -83,7 +131,16 @@ public class Order {
 	 */
 	@Override
 	public String toString() {
-		return null;
+		StringBuffer result=new StringBuffer();
+		result.append(" \""+restaurant.getName()+", "+user.getFirstName()+" "+user.getLastName()+" : "+delivery_time+" \n");
+		
+		for(Menu_quantity m:menu_list) {
+			if(m!=null) {
+				result.append("\t"+m.getMenu()+"->"+m.getQuantity()+"\n");
+			}
+		}
+		
+		return result.toString();
 	}
 	
 }

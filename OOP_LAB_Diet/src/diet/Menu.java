@@ -27,6 +27,7 @@ public class Menu implements NutritionalElement {
 	private double fat=0.0;
 	
 	
+	
 	public  Menu(String name, Food food) {
 		this.name=name;
 		this.food=food;

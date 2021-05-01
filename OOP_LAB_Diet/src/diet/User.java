@@ -5,21 +5,30 @@ package diet;
  *  
  */
 public class User {
-		
+		private String firstName, lastName,  email, phoneNumber;
 	/**
 	 * get user's last name
 	 * @return last name
+	 * 
 	 */
+	
+	public User(String firstName, String lastName) {
+		this.firstName=firstName;
+		this.lastName=lastName;
+	}
 	public String getLastName() {
-		return null;
+		return lastName;
 	}
 	
+	public String toString() {
+		return firstName+" "+lastName;
+	}
 	/**
 	 * get user's first name
 	 * @return first name
 	 */
 	public String getFirstName() {
-		return null;
+		return firstName;
 	}
 	
 	/**
@@ -27,7 +36,7 @@ public class User {
 	 * @return email
 	 */
 	public String getEmail() {
-		return null;
+		return email;
 	}
 	
 	/**
@@ -35,7 +44,7 @@ public class User {
 	 * @return  phone number
 	 */
 	public String getPhone() {
-		return null;
+		return phoneNumber;
 	}
 	
 	/**
@@ -43,6 +52,7 @@ public class User {
 	 * @param email new email
 	 */
 	public void SetEmail(String email) {
+		this.email=email;
 	}
 	
 	/**
@@ -50,6 +60,7 @@ public class User {
 	 * @param phone new phone number
 	 */
 	public void setPhone(String phone) {
+		this.phoneNumber=phone;
 	}
 	
 }

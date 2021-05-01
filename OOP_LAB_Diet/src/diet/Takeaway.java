@@ -1,6 +1,9 @@
 package diet;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Represents the main class in the
@@ -10,13 +13,18 @@ import java.util.Collection;
  *
  */
 public class Takeaway {
-
+   private List<Restaurant> restaurant=new ArrayList<>();
+   private List<String> restaurantName=new ArrayList<>();
+   private List<User> listUser=new ArrayList<>();
 	/**
 	 * Adds a new restaurant to the take-away system
 	 * 
 	 * @param r the restaurant to be added
 	 */
 	public void addRestaurant(Restaurant r) {
+		restaurant.add(r);
+		
+		
 	}
 	
 	/**
@@ -25,7 +33,11 @@ public class Takeaway {
 	 * @return collection of added restaurants
 	 */
 	public Collection<String> restaurants() {
-		return null;
+		for(Restaurant r:restaurant)
+		{ if(r!=null)
+		  restaurantName.add(r.getName());
+			} 
+		return restaurantName;
 	}
 	
 	/**
@@ -38,7 +50,13 @@ public class Takeaway {
 	 * @return
 	 */
 	public User registerUser(String firstName, String lastName, String email, String phoneNumber) {
-		return null;
+		User u=new User(firstName,lastName);
+		u.SetEmail(email);
+		u.setPhone(phoneNumber);
+		
+		listUser.add(u);
+		return u;
+		
 	}
 	
 	/**
@@ -47,7 +65,8 @@ public class Takeaway {
 	 * @return the collection of users
 	 */
 	public Collection<User> users(){
-		return null;
+		listUser.sort(Comparator.comparing(User::getFirstName).thenComparing(User::getLastName));
+		return listUser;
 	}
 	
 	/**
@@ -63,6 +82,15 @@ public class Takeaway {
 	 * @return
 	 */
 	public Order createOrder(User user, String restaurantName, int h, int m) {
+		
+		for(Restaurant r:restaurant)
+		{ if(r!=null && r.getName().equals(restaurantName))
+		{  Order o=new Order(user,r,h,m);
+		    return o;
+			}} 
+		
+		
+		
 		return null;
 	}
 	
