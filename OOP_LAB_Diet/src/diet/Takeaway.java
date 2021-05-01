@@ -83,11 +83,15 @@ public class Takeaway {
 	 */
 	public Order createOrder(User user, String restaurantName, int h, int m) {
 		
-		for(Restaurant r:restaurant)
-		{ if(r!=null && r.getName().equals(restaurantName))
-		{  Order o=new Order(user,r,h,m);
+	for(Restaurant r:restaurant)
+	{  if(r!=null && r.getName().equals(restaurantName))
+		 {  Order o=new Order(user,r,h,m);
+		     
+		       r.addOrder(o);
+		   
 		    return o;
-			}} 
+		  }
+	} 
 		
 		
 		
@@ -103,6 +107,12 @@ public class Takeaway {
 	 * @return collection of restaurants
 	 */
 	public Collection<Restaurant> openedRestaurants(String time){
+		for(Restaurant r:restaurant)
+		{ if(r!=null && r.getName().equals(restaurantName))
+		{  Order o=new Order(user,r,h,m);
+		    return o;
+			}}
+				
 		return null;
 	}
 

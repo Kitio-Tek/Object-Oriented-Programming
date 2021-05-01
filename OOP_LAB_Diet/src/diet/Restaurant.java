@@ -1,6 +1,7 @@
 package diet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -14,8 +15,9 @@ import diet.Order.OrderStatus;
 public class Restaurant {
 	private String name;
 	private Food food;
-	private SortedMap<String,NutritionalElement> menu=new TreeMap<>();
+	private SortedMap<String,Menu> menu=new TreeMap<>();
 	public List<WorkingHours> workingHours=new ArrayList<>();
+	public List<Order> order=new ArrayList<>();
 	/**
 	 * Constructor for a new restaurant.
 	 * 
@@ -56,13 +58,15 @@ public class Restaurant {
 	public void setHours(String ... hm) {
 		for(int i=0;i<=hm.length;i=+2)
 			workingHours.add(new WorkingHours(hm[i],hm[i+1]));
+		
+		workingHours.sort(Comparator.comparing(WorkingHours::getOpen).thenComparing(WorkingHours::getClose));
 			
 
 	}
 	
 	
 	public Menu getMenu(String name) {
-		return null;
+		return menu.get(name);
 	}
 	
 	/**
@@ -105,5 +109,10 @@ public class Restaurant {
 	 */
 	public String ordersWithStatus(OrderStatus status) {
 		return null;
+	}
+
+	public void addOrder(Order o) {
+		// TODO Auto-generated method stub
+		order.add(o);
 	}
 }

@@ -14,7 +14,7 @@ public class Order {
     private User user;
     private Restaurant restaurant;
     private List<Menu_quantity> menu_list=new ArrayList<>();
-    private String tmp;
+    private StringBuffer tmp=new StringBuffer();
 	/**
 	 * Defines the possible order status
 	 */
@@ -25,17 +25,17 @@ public class Order {
 	public Order(User user, Restaurant restaurant, int h, int m) {
 	this.user=user;
 	this.restaurant=restaurant;
-	this.tmp=h+":"+m;
-	restaurant.workingHours.sort(Comparator.comparing(WorkingHours::getOpen).thenComparing(WorkingHours::getClose));
+	tmp.append(String.format("%02d:%02d", h,m));
+	
 
 	for(WorkingHours w:restaurant.workingHours) {
-		if(w.includes(tmp)) {
-			this.delivery_time=tmp;
+		if(w.includes(tmp.toString())) {
+			this.delivery_time=tmp.toString();
 			return;
 		}
 	}
 	for(WorkingHours w:restaurant.workingHours) {
-		if(w.getOpen().compareTo(tmp)>0) {
+		if(w.getOpen().compareTo(tmp.toString())>0) {
 			this.delivery_time=w.getOpen();
 			return;
 		}
