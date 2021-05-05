@@ -1,6 +1,7 @@
 package diet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
@@ -12,7 +13,7 @@ import diet.Order.OrderStatus;
  * Represents a restaurant in the take-away system
  *
  */
-public class Restaurant {
+public class Restaurant implements Comparable<Restaurant> {
 	private String name;
 	private Food food;
 	private SortedMap<String,Menu> menu=new TreeMap<>();
@@ -56,10 +57,12 @@ public class Restaurant {
 	 * @param hm a list of opening hours
 	 */
 	public void setHours(String ... hm) {
-		for(int i=0;i<=hm.length;i=+2)
-			workingHours.add(new WorkingHours(hm[i],hm[i+1]));
+		workingHours.clear();
 		
-		workingHours.sort(Comparator.comparing(WorkingHours::getOpen).thenComparing(WorkingHours::getClose));
+		for(int i=0;i<hm.length/2;i=+2)
+			{workingHours.add(new WorkingHours(hm[i],hm[i+1]));
+			 workingHours.add(new WorkingHours(hm[i+2],hm[i+3]));
+			}
 			
 
 	}
@@ -80,6 +83,7 @@ public class Restaurant {
         Menu m=new Menu(name,food);
 		
 		menu.put(name, m);
+		
 		return m;
 	}
 
@@ -108,11 +112,43 @@ public class Restaurant {
 	 * @return the description of orders satisfying the criterion
 	 */
 	public String ordersWithStatus(OrderStatus status) {
-		return null;
+      StringBuffer b=new StringBuffer();
+      
+      order.sort(Comparator.comparing((Order o)->o.getRestaurant().getName())
+    		     .thenComparing((Order o)->o.getUser().getLastName())
+    		     .thenComparing((Order o)->o.getUser().getFirstName())
+    		     .thenComparing(Order::getDelivery_time));
+      for(Order o:order) {
+    	  if(o.getStatus()==status)
+    		  b.append(o);
+      }
+ return b.toString();
 	}
 
 	public void addOrder(Order o) {
 		// TODO Auto-generated method stub
 		order.add(o);
+	}
+
+	public Time checkTime(Time time) {
+		
+		
+		for(WorkingHours w:workingHours)
+		{ if(w.includes(time))
+			return time;
+			}
+		for(WorkingHours w:workingHours)
+		{ if(w.getOpen().compareTo(time)>0)
+			return w.getOpen();
+			}
+		
+		
+		return workingHours.get(0).getOpen();
+	}
+
+	@Override
+	public int compareTo(Restaurant o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

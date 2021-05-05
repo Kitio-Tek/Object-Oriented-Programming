@@ -18,31 +18,27 @@ public class Order {
 	/**
 	 * Defines the possible order status
 	 */
-	private OrderStatus orderStatus=OrderStatus.ORDERED;
-	private PaymentMethod paymentMethod=PaymentMethod.CASH;
-	private String delivery_time;
+	private OrderStatus orderStatus;
+	private PaymentMethod paymentMethod;
+	private Time delivery_time;
 	
 	public Order(User user, Restaurant restaurant, int h, int m) {
 	this.user=user;
 	this.restaurant=restaurant;
-	tmp.append(String.format("%02d:%02d", h,m));
+	orderStatus=OrderStatus.ORDERED;
+	paymentMethod=PaymentMethod.CASH;
+    this.delivery_time=restaurant.checkTime(new Time(h,m));
 	
-
-	for(WorkingHours w:restaurant.workingHours) {
-		if(w.includes(tmp.toString())) {
-			this.delivery_time=tmp.toString();
-			return;
-		}
+	
 	}
-	for(WorkingHours w:restaurant.workingHours) {
-		if(w.getOpen().compareTo(tmp.toString())>0) {
-			this.delivery_time=w.getOpen();
-			return;
-		}
+	public Time getDelivery_time() {
+		return delivery_time;
 	}
-	this.delivery_time=restaurant.workingHours.get(0).getOpen();
-	
-	
+	public User getUser() {
+		return user;
+	}
+	public Restaurant getRestaurant() {
+		return restaurant;
 	}
 	public enum OrderStatus {
 		ORDERED, READY, DELIVERED;
@@ -116,7 +112,7 @@ public class Order {
 				}
 		}
 		menu_list.add(new Menu_quantity(menu,quantity));
-		menu_list.sort(Comparator.comparing(Menu_quantity::getMenu));
+		
 			return this;
 	}
 	
@@ -132,7 +128,8 @@ public class Order {
 	@Override
 	public String toString() {
 		StringBuffer result=new StringBuffer();
-		result.append(" \""+restaurant.getName()+", "+user.getFirstName()+" "+user.getLastName()+" : "+delivery_time+" \n");
+		menu_list.sort(Comparator.comparing(Menu_quantity::getMenu));
+		result.append(restaurant.getName()+", "+user.getFirstName()+" "+user.getLastName()+" : ("+delivery_time+"):\n");
 		
 		for(Menu_quantity m:menu_list) {
 			if(m!=null) {

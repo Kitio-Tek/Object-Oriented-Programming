@@ -2,8 +2,12 @@ package diet;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Represents the main class in the
@@ -13,16 +17,16 @@ import java.util.List;
  *
  */
 public class Takeaway {
-   private List<Restaurant> restaurant=new ArrayList<>();
-   private List<String> restaurantName=new ArrayList<>();
+   private Map<String,Restaurant> restaurant=new TreeMap<>();
    private List<User> listUser=new ArrayList<>();
+   private Time open;
 	/**
 	 * Adds a new restaurant to the take-away system
 	 * 
 	 * @param r the restaurant to be added
 	 */
 	public void addRestaurant(Restaurant r) {
-		restaurant.add(r);
+		restaurant.put(r.getName(), r);
 		
 		
 	}
@@ -33,11 +37,8 @@ public class Takeaway {
 	 * @return collection of added restaurants
 	 */
 	public Collection<String> restaurants() {
-		for(Restaurant r:restaurant)
-		{ if(r!=null)
-		  restaurantName.add(r.getName());
-			} 
-		return restaurantName;
+		
+		return new LinkedList<>(restaurant.keySet());
 	}
 	
 	/**
@@ -65,7 +66,7 @@ public class Takeaway {
 	 * @return the collection of users
 	 */
 	public Collection<User> users(){
-		listUser.sort(Comparator.comparing(User::getFirstName).thenComparing(User::getLastName));
+		listUser.sort(Comparator.comparing(User::getLastName).thenComparing(User::getFirstName));
 		return listUser;
 	}
 	
@@ -79,23 +80,16 @@ public class Takeaway {
 	 * @param restaurantName	restaurant name
 	 * @param h					delivery time hour
 	 * @param m					delivery time minutes
-	 * @return
+	 * @return     
 	 */
 	public Order createOrder(User user, String restaurantName, int h, int m) {
+		Restaurant restaurants=restaurant.get(restaurantName);
 		
-	for(Restaurant r:restaurant)
-	{  if(r!=null && r.getName().equals(restaurantName))
-		 {  Order o=new Order(user,r,h,m);
-		     
-		       r.addOrder(o);
+	    Order o=new Order(user,restaurants,h,m);
+	    restaurants .addOrder(o);
 		   
 		    return o;
-		  }
-	} 
-		
-		
-		
-		return null;
+		 
 	}
 	
 	/**
@@ -106,16 +100,21 @@ public class Takeaway {
 	 * 
 	 * @return collection of restaurants
 	 */
-	public Collection<Restaurant> openedRestaurants(String time){
-		for(Restaurant r:restaurant)
-		{ if(r!=null && r.getName().equals(restaurantName))
-		{  Order o=new Order(user,r,h,m);
-		    return o;
-			}}
-				
-		return null;
-	}
+	public Collection<Restaurant> openedRestaurants(String time) {
+		List<Restaurant> opened_r=new ArrayList<>();
+		String [] open_h_m=time.split(":");
+		
+		this.open = new Time(Integer.parseInt(open_h_m[0]),Integer.parseInt(open_h_m[1]));
+
+        for(Restaurant r:restaurant.values()) {
+        	if(r!=null && r.checkTime(open)==open)
+        		opened_r.add(r);
+        	}
+     
+		//Collections.sort(opened_r);		
+		return opened_r;
+		}
 
 	
 	
-}
+} 

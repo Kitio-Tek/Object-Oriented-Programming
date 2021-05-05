@@ -4,7 +4,7 @@ package diet;
  * Represent a take-away system user
  *  
  */
-public class User {
+public class User implements Comparable<User> {
 		private String firstName, lastName,  email, phoneNumber;
 	/**
 	 * get user's last name
@@ -61,6 +61,11 @@ public class User {
 	 */
 	public void setPhone(String phone) {
 		this.phoneNumber=phone;
+	}
+	@Override
+	public int compareTo(User o) {
+		
+		return 0;
 	}
 	
 }
