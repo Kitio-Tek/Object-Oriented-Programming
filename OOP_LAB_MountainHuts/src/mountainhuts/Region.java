@@ -1,12 +1,15 @@
 package mountainhuts;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -235,7 +238,11 @@ public class Region {
 	 *         value
 	 */
 	public Map<String, Long> countMunicipalitiesPerProvince() {
-		return null;
+		Map<String, Long> m=municipality.values()
+				            .stream()
+				            .collect(groupingBy(Municipality::getProvince,
+				            		 counting()));
+		return m;
 	}
 
 	/**
@@ -245,7 +252,19 @@ public class Region {
 	 *         municipality as key and the number of mountain huts as value
 	 */
 	public Map<String, Map<String, Long>> countMountainHutsPerMunicipalityPerProvince() {
-		return null;
+		                  return mountainHut.values()
+				                         .stream()
+				                         .collect(groupingBy(
+				                        		 (MountainHut e)->e.getMunicipality().getProvince(),
+				                        		  HashMap::new,
+				                        		  groupingBy(
+				                        		 (MountainHut e)->e.getMunicipality().getProvince(),
+						                           HashMap::new,
+                                                   counting()
+
+				                        				  )
+				                        		   
+				                        		     ));
 	}
 
 	/**
