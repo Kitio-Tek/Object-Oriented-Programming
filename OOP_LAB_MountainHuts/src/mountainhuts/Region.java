@@ -5,10 +5,13 @@ import static java.util.stream.Collectors.toList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Class {@code Region} represents the main facade
@@ -18,6 +21,7 @@ import java.util.Optional;
  * municipalities and mountain huts.
  *
  */
+ 
 public class Region {
 
 	/**
@@ -26,8 +30,13 @@ public class Region {
 	 * @param name
 	 *            the name of the region
 	 */
-	public Region(String name) {
+	private String name;
+	private List<AltitudeRanges> altitude=new ArrayList<>();
+	private SortedMap<String, Municipality> municipality=new TreeMap<>();
+	private SortedMap<String, MountainHut> mountainHut=new TreeMap<>();
 
+	public Region(String name) {
+    this.name=name;
 	}
 
 	/**
@@ -36,7 +45,7 @@ public class Region {
 	 * @return the name of the region
 	 */
 	public String getName() {
-		return null;
+		return name;
 	}
 
 	/**
@@ -47,7 +56,9 @@ public class Region {
 	 *            an array of textual ranges
 	 */
 	public void setAltitudeRanges(String... ranges) {
-
+    
+		for(int i=0;i<ranges.length;i++)
+			altitude.add(new AltitudeRanges(ranges[i]));
 	}
 
 	/**
@@ -59,7 +70,12 @@ public class Region {
 	 * @return a string representing the range
 	 */
 	public String getAltitudeRange(Integer altitude) {
-		return null;
+
+        for(AltitudeRanges e:this.altitude) {
+        	if(e.includes(altitude))
+        		return e.getRange();
+        }
+        return "0-INF";
 	}
 
 	/**
@@ -75,7 +91,14 @@ public class Region {
 	 * @return the municipality
 	 */
 	public Municipality createOrGetMunicipality(String name, String province, Integer altitude) {
-		return null;
+     
+		if(municipality.containsKey(name))
+			return municipality.get(name);
+		
+		Municipality m=new Municipality(name,province,altitude);
+		municipality.put(name, m);
+		
+      return m;
 	}
 
 	/**
@@ -84,7 +107,7 @@ public class Region {
 	 * @return a collection of municipalities
 	 */
 	public Collection<Municipality> getMunicipalities() {
-		return null;
+		return municipality.values();
 	}
 
 	/**
@@ -103,7 +126,12 @@ public class Region {
 	 */
 	public MountainHut createOrGetMountainHut(String name, String category, Integer bedsNumber,
 			Municipality municipality) {
-		return null;
+		if(mountainHut.containsKey(name))
+			return mountainHut.get(name);
+		
+		MountainHut m=new MountainHut(name,category,bedsNumber,municipality);
+		mountainHut.put(name, m);
+   return m;
 	}
 
 	/**
@@ -124,8 +152,16 @@ public class Region {
 	 */
 	public MountainHut createOrGetMountainHut(String name, Integer altitude, String category, Integer bedsNumber,
 			Municipality municipality) {
-		return null;
+		if(mountainHut.containsKey(name))
+			return mountainHut.get(name);
+		
+		MountainHut m=new MountainHut(name,category,altitude,bedsNumber,municipality);
+		mountainHut.put(name, m);
+		
+		return m;
+
 	}
+	
 
 	/**
 	 * Return all the mountain huts available.
@@ -133,7 +169,7 @@ public class Region {
 	 * @return a collection of mountain huts
 	 */
 	public Collection<MountainHut> getMountainHuts() {
-		return null;
+		return mountainHut.values();
 	}
 
 	/**
@@ -159,7 +195,15 @@ public class Region {
 	 *            the path of the file
 	 */
 	public static Region fromFile(String name, String file) {
-		return null;
+    Region r=new Region(name);
+    List<String> data=readData(file);
+    
+    data.stream().skip(0).map(t->t.split(";")).forEach((a)->{
+    	Municipality m=r.createOrGetMunicipality(a[1], a[0],Integer.parseInt(a[2]));
+    	r.createOrGetMountainHut(a[3], a[4].equals("")? null:Integer.parseInt(a[4]), a[5],Integer.parseInt(a[6]), m);
+    	});
+  
+    return r;
 	}
 
 	/**
