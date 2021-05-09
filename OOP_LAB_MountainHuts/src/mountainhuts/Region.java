@@ -198,7 +198,7 @@ public class Region {
     Region r=new Region(name);
     List<String> data=readData(file);
     
-    data.stream().skip(0).map(t->t.split(";")).forEach((a)->{
+    data.stream().skip(1).map(t->t.split(";")).forEach((a)->{
     	Municipality m=r.createOrGetMunicipality(a[1], a[0],Integer.parseInt(a[2]));
     	r.createOrGetMountainHut(a[3], a[4].equals("")? null:Integer.parseInt(a[4]), a[5],Integer.parseInt(a[6]), m);
     	});
