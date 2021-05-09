@@ -9,13 +9,39 @@ import java.util.Optional;
  *
  */
 public class MountainHut {
+	private String name,category;
+	  private Optional<Integer> altitude;
+	  private Integer bedsNumber;
+	  private Municipality municipality;
 
 	/**
 	 * Unique name of the mountain hut
 	 * @return name
 	 */
 	public String getName() {
-		return null;
+		return name;
+	}
+
+	
+
+	public MountainHut(String name, String category, Integer altitude, Integer bedsNumber,
+			Municipality municipality) {
+		this.name = name;
+		this.category = category;
+		this.altitude = Optional.of(altitude);
+		this.bedsNumber = bedsNumber;
+		this.municipality = municipality;
+	}
+
+	public MountainHut(String name, String category, Integer bedsNumber, Municipality municipality) {
+		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.category = category;
+		this.bedsNumber = bedsNumber;
+		this.municipality = municipality;
+		this.altitude = Optional.ofNullable(null);
+
+
 	}
 
 	/**
@@ -25,7 +51,7 @@ public class MountainHut {
 	 * @return optional containing the altitude
 	 */
 	public Optional<Integer> getAltitude() {
-		return null;
+		return altitude;
 	}
 
 	/**
@@ -34,7 +60,7 @@ public class MountainHut {
 	 * @return the category
 	 */
 	public String getCategory() {
-		return null;
+		return category ;
 	}
 
 	/**
@@ -42,7 +68,7 @@ public class MountainHut {
 	 * @return number of beds
 	 */
 	public Integer getBedsNumber() {
-		return null;
+		return bedsNumber;
 	}
 
 	/**
@@ -51,7 +77,7 @@ public class MountainHut {
 	 * @return municipality
 	 */
 	public Municipality getMunicipality() {
-		return null;
+		return municipality;
 	}
 
 }
