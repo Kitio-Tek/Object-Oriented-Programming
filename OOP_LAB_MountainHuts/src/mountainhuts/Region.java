@@ -10,12 +10,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * Class {@code Region} represents the main facade
@@ -26,7 +28,7 @@ import java.util.TreeMap;
  *
  */
  
-public class Region implements Comparable {
+public class Region  {
 
 	/**
 	 * Create a region with the given name.
@@ -318,7 +320,7 @@ public class Region implements Comparable {
 	public Map<String, Optional<Integer>> maximumBedsNumberPerAltitudeRange() {
 			            		           
 	            		
-	            		;
+	            		
 		Map<String, Optional<Integer>> m=mountainHut.values()
 	              .stream()
 	              .collect( groupingBy(
@@ -340,13 +342,13 @@ public class Region implements Comparable {
 	 *         list of municipality names as value
 	 */
 	public Map<Long, List<String>> municipalityNamesPerCountOfMountainHuts() {
-		return null;
+		return municipality.values().stream()
+				.sorted(Comparator.comparing(Municipality::getName))
+				.collect(groupingBy(m->mountainHut.values().stream().filter(e->e.getMunicipality()==m).count(),
+				Collectors.mapping(Municipality::getName, Collectors.toList()))
+						
+						);
 	}
 
-	@Override
-	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 }
