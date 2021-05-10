@@ -5,7 +5,7 @@ package mountainhuts;
  *
  */
 public class Municipality {
-  private String name,province;
+  private String name,province,AltitudeRange;
   private Integer altitude;
 	
 
@@ -14,6 +14,11 @@ public class Municipality {
 		this.name = name;
 		this.province = province;
 		this.altitude = altitude;
+		
+	}
+
+	public void setAltitudeRange(String altitudeRange) {
+		AltitudeRange = altitudeRange;
 	}
 
 	/**
@@ -25,6 +30,10 @@ public class Municipality {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public String getAltitudeRange() {
+		return AltitudeRange;
 	}
 
 	/**

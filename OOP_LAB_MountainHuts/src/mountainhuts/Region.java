@@ -1,9 +1,10 @@
 package mountainhuts;
 
 import static java.util.stream.Collectors.toList;
+
 import static java.util.stream.Collectors.*;
 import static java.util.stream.Collectors.groupingBy;
-
+import java.util.Comparator;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,7 +26,7 @@ import java.util.TreeMap;
  *
  */
  
-public class Region {
+public class Region implements Comparable {
 
 	/**
 	 * Create a region with the given name.
@@ -98,7 +99,10 @@ public class Region {
 		if(municipality.containsKey(name))
 			return municipality.get(name);
 		
+		
 		Municipality m=new Municipality(name,province,altitude);
+		m.setAltitudeRange(this.getAltitudeRange(altitude));
+		
 		municipality.put(name, m);
 		
       return m;
@@ -133,6 +137,8 @@ public class Region {
 			return mountainHut.get(name);
 		
 		MountainHut m=new MountainHut(name,category,bedsNumber,municipality);
+		m.setAltitudeRange("0-INF");
+
 		mountainHut.put(name, m);
    return m;
 	}
@@ -159,6 +165,7 @@ public class Region {
 			return mountainHut.get(name);
 		
 		MountainHut m=new MountainHut(name,category,altitude,bedsNumber,municipality);
+		m.setAltitudeRange(this.getAltitudeRange(altitude));
 		mountainHut.put(name, m);
 		
 		return m;
@@ -275,7 +282,12 @@ public class Region {
 	 *         as value
 	 */
 	public Map<String, Long> countMountainHutsPerAltitudeRange() {
-		return null;
+		Map<String, Long> m=mountainHut.values()
+	            .stream()
+	            .collect(groupingBy((MountainHut e)->e.getAltitudeRange().equals("0-INF")?e.getMunicipality().getAltitudeRange():e.getAltitudeRange(),
+	            		 
+	            		          counting()));
+		return m;
 	}
 
 	/**
@@ -285,7 +297,14 @@ public class Region {
 	 * @return a map with the province as key and the total number of beds as value
 	 */
 	public Map<String, Integer> totalBedsNumberPerProvince() {
-		return null;
+		Map<String,Integer> m=mountainHut.values()
+				              .stream()
+				              .collect( groupingBy(
+				            		    (MountainHut e)->e.getMunicipality().getProvince(),
+				            		     summingInt(MountainHut::getBedsNumber))
+				            		   
+				            		  );
+		return m;
 	}
 
 	/**
@@ -297,7 +316,19 @@ public class Region {
 	 *         as value
 	 */
 	public Map<String, Optional<Integer>> maximumBedsNumberPerAltitudeRange() {
-		return null;
+		Map<String, Optional<Integer>> m=mountainHut.values()
+	            .stream()
+	            .collect(groupingBy((MountainHut e)->e.getAltitudeRange().equals("0-INF")?e.getMunicipality().getAltitudeRange():e.getAltitudeRange(),
+	            		 
+	            		           maxBy(Comparator.comparingInt(MountainHut::getBedsNumber))
+	            		        		                  
+	            		        		   
+	            		           
+	            		
+	            		));
+		
+		return m;
+
 	}
 
 	/**
@@ -309,6 +340,12 @@ public class Region {
 	 */
 	public Map<Long, List<String>> municipalityNamesPerCountOfMountainHuts() {
 		return null;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

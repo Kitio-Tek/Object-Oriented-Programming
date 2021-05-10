@@ -9,7 +9,7 @@ import java.util.Optional;
  *
  */
 public class MountainHut {
-	private String name,category;
+	private String name,category,AltitudeRange;
 	  private Optional<Integer> altitude;
 	  private Integer bedsNumber;
 	  private Municipality municipality;
@@ -23,6 +23,18 @@ public class MountainHut {
 	}
 
 	
+
+	public String getAltitudeRange() {
+		return AltitudeRange;
+	}
+
+
+
+	public void setAltitudeRange(String altitudeRange) {
+		AltitudeRange = altitudeRange;
+	}
+
+
 
 	public MountainHut(String name, String category, Integer altitude, Integer bedsNumber,
 			Municipality municipality) {
