@@ -318,16 +318,14 @@ public class Region implements Comparable {
 	public Map<String, Optional<Integer>> maximumBedsNumberPerAltitudeRange() {
 			            		           
 	            		
-	            		
+	            		;
 		Map<String, Optional<Integer>> m=mountainHut.values()
 	              .stream()
 	              .collect( groupingBy(
 	            		    (MountainHut e)->e.getAltitudeRange().equals("0-INF")?e.getMunicipality().getAltitudeRange():e.getAltitudeRange(),
 	       	            		 
-
-	            		     summingInt(MountainHut::getBedsNumber))
-	            		   
-	            		  );
+                           mapping(MountainHut::getBedsNumber, maxBy(Comparator.naturalOrder()))	            		     
+	            		    		 ));
 
 		
 		return m;

@@ -91,5 +91,10 @@ public class MountainHut {
 	public Municipality getMunicipality() {
 		return municipality;
 	}
-
+    public static int compareInt(MountainHut e,Integer max)
+    {
+    	if(max<e.getBedsNumber())
+    	 return e.getBedsNumber();
+    	return max;
+    }
 }
