@@ -40,7 +40,7 @@ public class MountainHut {
 			Municipality municipality) {
 		this.name = name;
 		this.category = category;
-		this.altitude = Optional.of(altitude);
+		this.altitude = Optional.ofNullable(altitude);
 		this.bedsNumber = bedsNumber;
 		this.municipality = municipality;
 	}

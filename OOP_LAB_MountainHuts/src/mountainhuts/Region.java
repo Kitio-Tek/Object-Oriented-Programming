@@ -284,7 +284,7 @@ public class Region implements Comparable {
 	public Map<String, Long> countMountainHutsPerAltitudeRange() {
 		Map<String, Long> m=mountainHut.values()
 	            .stream()
-	            .collect(groupingBy((MountainHut e)->e.getAltitudeRange().equals("0-INF")?e.getMunicipality().getAltitudeRange():e.getAltitudeRange(),
+	            .collect(groupingBy((MountainHut e)->this.getAltitudeRange(e.getAltitude().orElse(e.getMunicipality().getAltitude())),
 	            		 
 	            		          counting()));
 		return m;
@@ -322,7 +322,7 @@ public class Region implements Comparable {
 		Map<String, Optional<Integer>> m=mountainHut.values()
 	              .stream()
 	              .collect( groupingBy(
-	            		    (MountainHut e)->e.getAltitudeRange().equals("0-INF")?e.getMunicipality().getAltitudeRange():e.getAltitudeRange(),
+	            		    (MountainHut e)->this.getAltitudeRange(e.getAltitude().orElse(e.getMunicipality().getAltitude())),
 	       	            		 
                            mapping(MountainHut::getBedsNumber, maxBy(Comparator.naturalOrder()))	            		     
 	            		    		 ));
