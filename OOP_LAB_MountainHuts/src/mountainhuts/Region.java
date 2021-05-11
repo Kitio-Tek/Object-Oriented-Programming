@@ -267,7 +267,7 @@ public class Region  {
 				                        		 (MountainHut e)->e.getMunicipality().getProvince(),
 				                        		  HashMap::new,
 				                        		  groupingBy(
-				                        		 (MountainHut e)->e.getMunicipality().getProvince(),
+				                        		 (MountainHut e)->e.getMunicipality().getName(),
 						                           HashMap::new,
                                                    counting()
 
