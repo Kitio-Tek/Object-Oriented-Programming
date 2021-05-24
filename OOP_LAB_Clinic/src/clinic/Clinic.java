@@ -3,12 +3,16 @@ package clinic;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Represents a clinic with patients and doctors.
  * 
  */
 public class Clinic {
+	private SortedMap<String,Patient> patient=new TreeMap<>();
+	private SortedMap<Integer,Doctor> doctor=new TreeMap<>();
 
 	/**
 	 * Add a new clinic patient.
@@ -19,6 +23,8 @@ public class Clinic {
 	 */
 	public void addPatient(String first, String last, String ssn) {
 		// TODO Complete method
+		Patient p=new Patient(first,last,ssn);
+		patient.put(ssn, p);
 
 	}
 
@@ -32,7 +38,10 @@ public class Clinic {
 	 */
 	public String getPatient(String ssn) throws NoSuchPatient {
 		// TODO Complete method
-		return null;
+		if(!(patient.containsKey(ssn)))
+			throw new NoSuchPatient();
+			
+		return patient.get(ssn).getLast()+ " " +patient.get(ssn).getFirst()+" ("+patient.get(ssn).getSSN()+")";
 	}
 
 	/**
@@ -46,6 +55,8 @@ public class Clinic {
 	 */
 	public void addDoctor(String first, String last, String ssn, int docID, String specialization) {
 		// TODO Complete method
+		Doctor d=new Doctor(first,last, ssn, specialization,docID);
+		doctor.put(docID, d);
 
 	}
 
@@ -58,7 +69,9 @@ public class Clinic {
 	 */
 	public String getDoctor(int docID) throws NoSuchDoctor {
 		// TODO Complete method
-		return null;
+		if(!(doctor.containsKey(docID)))
+			throw new NoSuchDoctor();
+		return doctor.get(docID).getLast()+" "+doctor.get(docID).getFirst()+" ("+doctor.get(docID).getSsn()+" )"+" ["+docID+" ]:"+doctor.get(docID).getSpecialization();
 	}
 	
 	/**
@@ -71,6 +84,12 @@ public class Clinic {
 	 */
 	public void assignPatientToDoctor(String ssn, int docID) throws NoSuchPatient, NoSuchDoctor {
 		// TODO Complete method
+		if(!(doctor.containsKey(docID)))
+			throw new NoSuchDoctor();
+		if(!(patient.containsKey(ssn)))
+			throw new NoSuchPatient();
+		doctor.get(docID).addPatient(patient.get(ssn));
+		
 
 	}
 	
@@ -84,6 +103,9 @@ public class Clinic {
 	 */
 	public int getAssignedDoctor(String ssn) throws NoSuchPatient, NoSuchDoctor {
 		// TODO Complete method
+		if(!(patient.containsKey(ssn)))
+			throw new NoSuchPatient();
+		doctor.values().stream().filter((Doctor e)->e.getAssignedPatients().stream().filter((Patient p)->p.getSSN()==ssn)).map((Doctor e)->e.getDocID);
 		return -1;
 	}
 	
