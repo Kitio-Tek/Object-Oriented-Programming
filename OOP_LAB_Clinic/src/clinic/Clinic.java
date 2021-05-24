@@ -1,10 +1,19 @@
 package clinic;
 
+import static java.util.stream.Collectors.toList;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.OptionalDouble;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Represents a clinic with patients and doctors.
@@ -105,8 +114,13 @@ public class Clinic {
 		// TODO Complete method
 		if(!(patient.containsKey(ssn)))
 			throw new NoSuchPatient();
-		doctor.values().stream().filter((Doctor e)->e.getAssignedPatients().stream().filter((Patient p)->p.getSSN()==ssn)).map((Doctor e)->e.getDocID);
-		return -1;
+		Patient p=patient.get(ssn);
+		Doctor d=p.getDoctor();
+		
+		if(d==null)
+			throw new NoSuchDoctor();
+		
+		return d.getDocID();
 	}
 	
 	/**
@@ -118,7 +132,12 @@ public class Clinic {
 	 */
 	public Collection<String> getAssignedPatients(int id) throws NoSuchDoctor {
 		// TODO Complete method
-		return null;
+		if(!(doctor.containsKey(id)))
+			throw new NoSuchDoctor();
+		Doctor d=doctor.get(id);
+		
+		return d.getAssignedPatients().stream().map((Patient p)->p.getSSN()).collect(Collectors.toList());
+		
 	}
 
 
@@ -143,7 +162,25 @@ public class Clinic {
 	 */
 	public int loadData(Reader reader) throws IOException {
 		// TODO Complete method
-		return -1;		
+		BufferedReader in = new BufferedReader(reader);
+		int n = 0;
+		String line;
+				while((line=in.readLine()) != null)
+			  { String[] s=line.split(";");
+				  if(s[0]!="P" || s[0]!="M")
+					  continue;
+				  else if(s[0]=="P" ) {
+					  if(s.length!=4 || s[1]==null || s[2]==null ||s[3]==null)
+						  continue;
+					  this.addPatient(s[1], s[2], s[3]);}
+				  else if(s[0]=="M") {
+					  if(s.length!=6 || s[1]==null || s[2]==null ||s[3]==null ||s[4]==null ||s[5]==null )
+						  continue;
+                     this.addDoctor(s[2],s[3],s[4],Integer.parseInt(s[1]),s[5]);}
+					
+				  n++;
+				}
+		 return n;		
 	}
 
 
@@ -171,7 +208,29 @@ public class Clinic {
 	 */
 	public int loadData(Reader reader, ErrorListener listener) throws IOException {
 		// TODO Complete method
-		return -1;
+		BufferedReader in = new BufferedReader(reader);
+		int n = 0;
+		String line;
+				while((line=in.readLine()) != null)
+			  { String[] s=line.split(";");
+				  if(s[0]!="P" || s[0]!="M")
+					  { listener.offending(line);
+					    continue;}
+				  else if(s[0]=="P" ) {
+					  if(s.length!=4 || s[1]==null || s[2]==null ||s[3]==null)
+					  {   listener.offending(line);
+						  continue;}
+					  this.addPatient(s[1], s[2], s[3]);}
+				  
+				  else if(s[0]=="M") {
+					  if(s.length!=6 || s[1]==null || s[2]==null ||s[3]==null ||s[4]==null ||s[5]==null )
+					  {  listener.offending(line);
+						  continue;}
+                     this.addDoctor(s[2],s[3],s[4],Integer.parseInt(s[1]),s[5]);}
+					
+				  n++;
+				}
+		 return n;		
 	}
 
 		
@@ -183,7 +242,11 @@ public class Clinic {
 	 */
 	public Collection<Integer> idleDoctors(){
 		// TODO Complete method
-		return null;
+		return doctor.values().stream()
+				.filter((Doctor d)->d.getAssignedPatients().size()==0)
+				.sorted(Comparator.comparing(Doctor::getLast).thenComparing(Doctor::getFirst))
+				.map(Doctor::getDocID)
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -193,7 +256,15 @@ public class Clinic {
 	 */
 	public Collection<Integer> busyDoctors(){
 		// TODO Complete method
-		return null;
+		OptionalDouble s=doctor.values().stream().mapToInt((Doctor d)->d.getAssignedPatients().size()).average();
+		
+		
+		
+		return doctor.values().stream()
+				.filter((Doctor d)->OptionalDouble.of(Double.valueOf(d.getAssignedPatients().size()))==s)
+				.sorted(Comparator.comparing(Doctor::getLast).thenComparing(Doctor::getFirst))
+				.map(Doctor::getDocID)
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -208,7 +279,10 @@ public class Clinic {
 	 */
 	public Collection<String> doctorsByNumPatients(){
 		// TODO Complete method
-		return null;
+		return doctor.values().stream()
+				.sorted(Comparator.comparing((Doctor e)->e.getAssignedPatients().size()).reversed())
+				.map((Doctor d)->d.text())
+				.collect(Collectors.toList());
 	}
 	
 	/**

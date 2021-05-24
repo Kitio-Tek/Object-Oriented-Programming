@@ -31,11 +31,17 @@ public class Doctor {
 		return docID;
 	}
 	public void addPatient(Patient patient) {
+		patient.assignedDoctor(this);
 		assignedPatients.add(patient);
 		}
 	public List<Patient> getAssignedPatients() {
 		return assignedPatients;
 	}
-	
+	public String text() {
+		String s=new String();
+		s=String.format("%3d : %d %s %s", this.assignedPatients.size(),docID,last,first);
+	   
+		return s;
+	}
  
 }
