@@ -1,6 +1,8 @@
 package clinic;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
+import static java.util.Comparator.*;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -136,7 +138,7 @@ public class Clinic {
 			throw new NoSuchDoctor();
 		Doctor d=doctor.get(id);
 		
-		return d.getAssignedPatients().stream().map((Patient p)->p.getSSN()).collect(Collectors.toList());
+		return d.getAssignedPatients().stream().map((Patient p)->p.getSSN()).collect(toList());
 		
 	}
 
@@ -244,9 +246,9 @@ public class Clinic {
 		// TODO Complete method
 		return doctor.values().stream()
 				.filter((Doctor d)->d.getAssignedPatients().size()==0)
-				.sorted(Comparator.comparing(Doctor::getLast).thenComparing(Doctor::getFirst))
+				.sorted(comparing(Doctor::getLast).thenComparing(Doctor::getFirst))
 				.map(Doctor::getDocID)
-				.collect(Collectors.toList());
+				.collect(toList());
 	}
 
 	/**
@@ -262,9 +264,9 @@ public class Clinic {
 		
 		return doctor.values().stream()
 				.filter((Doctor d)->OptionalDouble.of(Double.valueOf(d.getAssignedPatients().size()))==s)
-				.sorted(Comparator.comparing(Doctor::getLast).thenComparing(Doctor::getFirst))
+				.sorted(comparing(Doctor::getLast).thenComparing(Doctor::getFirst))
 				.map(Doctor::getDocID)
-				.collect(Collectors.toList());
+				.collect(toList());
 	}
 
 	/**
@@ -280,9 +282,9 @@ public class Clinic {
 	public Collection<String> doctorsByNumPatients(){
 		// TODO Complete method
 		return doctor.values().stream()
-				.sorted(Comparator.comparing((Doctor e)->e.getAssignedPatients().size()).reversed())
+				.sorted(comparing((Doctor e)->e.getAssignedPatients().size()).reversed())
 				.map((Doctor d)->d.text())
-				.collect(Collectors.toList());
+				.collect(toList());
 	}
 	
 	/**
@@ -298,7 +300,12 @@ public class Clinic {
 	 */
 	public Collection<String> countPatientsPerSpecialization(){
 		// TODO Complete method
-		return null;
+		return doctor.values().stream()
+				.collect(groupingBy(Doctor::getSpecialization,summingInt(Doctor::numAssignedPatients)))
+				.entrySet().stream()
+				.sorted(comparing(e->e.getValue()))
+				.map(e->String.format("%3d - %s", e.getValue(),e.getKey()))
+				.collect(toList());
 	}
 	
 }

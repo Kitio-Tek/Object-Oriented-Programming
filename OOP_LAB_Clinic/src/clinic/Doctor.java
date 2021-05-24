@@ -37,6 +37,9 @@ public class Doctor {
 	public List<Patient> getAssignedPatients() {
 		return assignedPatients;
 	}
+	public int numAssignedPatients() {
+		return assignedPatients.size();
+	}
 	public String text() {
 		String s=new String();
 		s=String.format("%3d : %d %s %s", this.assignedPatients.size(),docID,last,first);
