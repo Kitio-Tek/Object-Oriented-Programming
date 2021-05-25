@@ -303,7 +303,7 @@ public class Clinic {
 		return doctor.values().stream()
 				.collect(groupingBy(Doctor::getSpecialization,summingInt(Doctor::numAssignedPatients)))
 				.entrySet().stream()
-				.sorted(comparing(e->e.getValue()))
+				.sorted(comparing(e->e.getValue(),reverseOrder()))
 				.map(e->String.format("%3d - %s", e.getValue(),e.getKey()))
 				.collect(toList());
 	}
