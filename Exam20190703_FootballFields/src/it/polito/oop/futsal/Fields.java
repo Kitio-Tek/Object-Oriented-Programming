@@ -163,15 +163,26 @@ public class Fields {
     }
     
     public long countServedAssociates() {
-        return ;
+        return associate.values().stream()
+        		.filter((Associate p)->p.isBooking())
+        		.count();
     }
     
     public Map<Integer,Long> fieldTurnover() {
-        return null;
+        return pitch.values().stream()
+        		.collect(toMap(Pitch::getId,
+        				  p->(long)p.getNumberofBooking()));
+        
     }
     
     public double occupation() {
-        return -1.0;
+      int startHour=open.getHour();
+      int endHour=close.getHour();
+      int block=endHour-startHour;
+    int totalbooking=  pitch.values().stream()
+       .mapToInt(Pitch::getNumberofBooking)
+      .sum();
+    	return (double)(totalbooking/block*pitch.size());
     }
     
 }

@@ -9,6 +9,7 @@ public Booking(Pitch pitch, Associate associate, String time) {
 	this.pitch = pitch;
 	this.associate = associate;
 	this.time = time;
+	associate.setBooking(true);
 }
  
 }

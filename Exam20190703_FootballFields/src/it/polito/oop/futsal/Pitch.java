@@ -43,5 +43,8 @@ public boolean corrispond(Features required) {
 	return true;
 	
 }
+public Map<String, Booking> getBooking() {
+	return booking;
+}
 
 }
