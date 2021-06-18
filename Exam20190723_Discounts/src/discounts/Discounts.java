@@ -196,7 +196,7 @@ public class Discounts {
     		                  
 		
 		return m.entrySet().stream()
-				.collect(toMap((Map.Entry::getKey,
+				.collect(toMap(Map.Entry::getKey,
  				                Map.Entry::getKey,
  				                (oldValue,newValue)->newValue,
  				                TreeMap::new));
