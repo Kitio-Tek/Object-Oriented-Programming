@@ -159,7 +159,24 @@ public class Discounts {
 	}
 	
 	public SortedMap<Integer, Integer> totalPurchasePerCard() {
-        return null;
+        Map<Integer,Integer> m= purchase.values().stream()
+        		                .filter(p->p.HasCardId())
+        		                .collect(toMap( (Purchase p)->p.getCardId(),
+        		                		         
+        		                		     (Purchase p)->p.getNofUnits()
+        		                		     
+        		                		
+        		                             )
+        		                		);
+        return m.entrySet().stream()
+        		.collect(toMap(Map.Entry::getKey,
+        				       Map.Entry::getKey,
+        				       (oldValue,newValue)->newValue,
+        				       TreeMap::new));
+        				
+        				
+        				
+        				
 	}
 	
 	public int totalPurchaseWithoutCard() {

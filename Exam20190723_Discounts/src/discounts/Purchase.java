@@ -58,4 +58,14 @@ private Map<Product,Integer> item=new HashMap<>();
 	public Map<Product,Integer> getItem(){
 		return item;
 	}
+	public int getCardId() {
+		return cardId;
+	}
+	public boolean HasCardId() {
+		if(cardId!=0)
+			return true;
+		
+		return false;
+		
+	}
 }
