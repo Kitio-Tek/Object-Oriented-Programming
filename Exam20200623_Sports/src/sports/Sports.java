@@ -33,6 +33,7 @@ public class Sports {
   List<String> activities=new ArrayList<>();
   HashMap<String,Category> category=new HashMap();
   HashMap<String,Product> product=new HashMap();
+  HashMap<Integer,Rating> rating=new HashMap();
     //R1
     /**
      * Define the activities types treated in the portal.
@@ -172,12 +173,13 @@ public class Sports {
       HashSet<String> set=new HashSet<>();
     	
     	for(String e:categoryNames)
-    {  list= product.values().stream()
-		.filter((Product p)->p. getActivityName().equals(activityName))
-		.filter((Product p)->p.getCategoryName().equals(e))
-		.sorted(comparing((Product p)->p.getName()))
-		.map(Product::getName)
-		.collect(toList()); 
+    {  list=List.copyOf(product.values().stream()
+		
+    		.filter((Product p)->p. getActivityName().equals(activityName))
+		    .filter((Product p)->p.getCategoryName().equals(e))
+		    .sorted(comparing((Product p)->p.getName()))
+		    .map(Product::getName)
+		    .collect(toList())); 
        
         set.addAll(list);
     	
@@ -198,6 +200,13 @@ public class Sports {
      * @throws SportsException thrown numStars is not correct
      */
     public void addRating(String productName, String userName, int numStars, String comment) throws SportsException {
+     if(!(numStars>=0) || !(numStars<=5))
+    	 throw new SportsException("Invalid numStars");
+     
+        Rating r=new Rating(product.get(productName),userName, numStars,comment);
+     
+      rating.put(rating.size(),r);
+    
     }
 
 
@@ -210,7 +219,11 @@ public class Sports {
      * @return list of ratings sorted by stars
      */
     public List<String> getRatingsForProduct(String productName) {
-        return null;
+        return rating.values().stream()
+        		.filter(e->e.getProduct().getName().equals(productName))
+        		.sorted(comparing((Rating e)->e.getNumStars()).reversed())
+        		.map((Rating e)->e.getNumStars()+" : ["+e.getComment()+"]")
+        		.collect(toList());
     }
 
 
