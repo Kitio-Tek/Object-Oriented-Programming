@@ -169,20 +169,26 @@ public class Sports {
      * @return list of products
      */
     public List<String> getProducts(String activityName, String... categoryNames){
-      List<String> name=new ArrayList<>();
-      name=Arrays.asList(categoryNames);
+      List<String> list=new ArrayList<>();
       
+      HashSet<String> set=new HashSet<>();
     	
-    	return product.values().stream()
-    	.filter((Product p)->p. getActivityName().equals(activityName))
-    	.filter((Product p)->name.contains(p.getCategoryName()))
-    	.sorted(comparing((Product p)->p.getName()))
-	    .map(Product::getName)
-	    .collect(toList());
+    	for(String e:categoryNames)
+    {  list=List.copyOf(product.values().stream()
+		
+    		.filter((Product p)->p. getActivityName().equals(activityName))
+		    .filter((Product p)->p.getCategoryName().equals(e))
+		    .sorted(comparing((Product p)->p.getName()))
+		    .map(Product::getName)
+		    .collect(toList())); 
+       
+        set.addAll(list);
+    	
+    	}   
     
     	
     	
-     
+      return List.copyOf(set);
     }
 
     //    //R3
@@ -199,7 +205,7 @@ public class Sports {
      if(!(numStars>=0) || !(numStars<=5))
     	 throw new SportsException("Invalid numStars");
      
-        Rating r=new Rating(product.get(productName),userName, numStars,comment);
+        Rating r=new Rating(product.get(productName),userName, numStars,comment,product.get(productName).getActivityName());
      
       rating.put(rating.size(),r);
     
@@ -232,7 +238,9 @@ public class Sports {
      * @return average rating
      */
     public double getStarsOfProduct (String productName) {
-        return -1.0;
+        return rating.values().stream()
+        		.filter(e->e.getProduct().getName().equals(productName))
+        		.collect(averagingDouble(e->e.getNumStars()));
     }
 
     /**
@@ -241,7 +249,8 @@ public class Sports {
      * @return average stars
      */
     public double averageStars() {
-        return -1.0;
+        return rating.values().stream()
+        		.collect(averagingDouble(e->e.getNumStars()));
 
     }
 
@@ -254,7 +263,17 @@ public class Sports {
      * @return the map associating activity name to average stars
      */
     public SortedMap<String, Double> starsPerActivity() {
-        return null;
+       return rating.values().stream()
+        .filter(e->e.HasStars())
+        .sorted(comparing(e->e.getActivity()))
+        .collect(groupingBy( (Rating p)->p.getActivity(),
+        		              TreeMap::new,
+        		              averagingDouble(Rating::getNumStars)
+        		              
+        		  
+        		));
+    	
+    
     }
 
     /**
@@ -266,7 +285,17 @@ public class Sports {
      * @return the map linking the average stars to the list of products
      */
     public SortedMap<Double, List<String>> getProductsPerStars () {
-        return null;
+            
+    	     return     rating.values().stream()
+    		            .filter(e->e.HasStars())
+    		            .sorted(comparing(p->p.getProduct().getName()))
+    		            .collect(groupingBy(p->p.getProduct().getAverageStars(),
+    		        		 ()->new TreeMap<Double,List<String>>(reverseOrder()),
+    		        		mapping(p->p.getProduct().getName(), toList())
+    		        		 
+    		        		
+    		        		
+    		        		));
     }
 
 }
