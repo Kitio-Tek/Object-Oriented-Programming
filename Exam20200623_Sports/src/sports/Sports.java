@@ -169,24 +169,20 @@ public class Sports {
      * @return list of products
      */
     public List<String> getProducts(String activityName, String... categoryNames){
-      List<String> list=new ArrayList<>();
-      HashSet<String> set=new HashSet<>();
+      List<String> name=new ArrayList<>();
+      name=Arrays.asList(categoryNames);
+      
     	
-    	for(String e:categoryNames)
-    {  list=List.copyOf(product.values().stream()
-		
-    		.filter((Product p)->p. getActivityName().equals(activityName))
-		    .filter((Product p)->p.getCategoryName().equals(e))
-		    .sorted(comparing((Product p)->p.getName()))
-		    .map(Product::getName)
-		    .collect(toList())); 
-       
-        set.addAll(list);
-    	
-    	}   
+    	return product.values().stream()
+    	.filter((Product p)->p. getActivityName().equals(activityName))
+    	.filter((Product p)->name.contains(p.getCategoryName()))
+    	.sorted(comparing((Product p)->p.getName()))
+	    .map(Product::getName)
+	    .collect(toList());
+    
     	
     	
-      return List.copyOf(set);
+     
     }
 
     //    //R3
