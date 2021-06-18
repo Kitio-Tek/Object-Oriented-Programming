@@ -180,11 +180,26 @@ public class Discounts {
 	}
 	
 	public int totalPurchaseWithoutCard() {
-        return -1;
+        return purchase.values().stream()
+        		.filter(p->!p.HasCardId())
+        		.collect(summingInt((Purchase p)->p.getNofUnits()));
 	}
 	
 	public SortedMap<Integer, Integer> totalDiscountPerCard() {
-        return null;
+       Map<Integer,Integer> m=purchase.values().stream()
+    		                  .filter(p->p.HasCardId())
+    		                  .collect(toMap((Purchase p)->p.getCardId(),
+    		                		 
+    		                		  (Purchase p)->(int)p.getPercentage()
+    		                		  
+    		                		   ) );
+    		                  
+		
+		return m.entrySet().stream()
+				.collect(toMap((Map.Entry::getKey,
+ 				                Map.Entry::getKey,
+ 				                (oldValue,newValue)->newValue,
+ 				                TreeMap::new));
 	}
 
 
