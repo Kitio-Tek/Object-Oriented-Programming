@@ -31,5 +31,10 @@ public class Hub {
 		// TODO Auto-generated method stub
 		 this.hourSet=hourSet;
 	}
+
+	public List<Integer> getHourSet() {
+		return hourSet;
+	}
+	
    
 }

@@ -283,6 +283,7 @@ public class Vaccines {
     	   hourSet.add(i);
      
      }
+     
     
      hub.values().stream()
                  .forEach(p->p.SetHours(hourSet));
@@ -314,7 +315,8 @@ public class Vaccines {
      * @return
      */
     public int getDailyAvailable(String hubName, int d) {
-        return -1;
+        return hub.get(hubName).getHourSet().get(d)*hub.get(hubName).getStaff().getCapacity();
+       
     }
 
     /**
