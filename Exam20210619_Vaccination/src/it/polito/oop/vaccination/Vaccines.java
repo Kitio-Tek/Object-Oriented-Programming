@@ -34,6 +34,8 @@ public class Vaccines {
     public final static int CURRENT_YEAR = java.time.LocalDate.now().getYear();
     private Map<String,Person> person=new HashMap<>();
     private Map<String,Hub> hub=new HashMap<>();
+    private Map<Interval,List<Person>> interval=new HashMap<>();
+    private List<Interval> inter=new ArrayList<>();
     // R1
     /**
      * Add a new person to the vaccination system.
@@ -99,7 +101,21 @@ public class Vaccines {
      * @param brk the array of breaks
      */
     public void setAgeIntervals(int... brk) {
-    
+    for(int i=0;i<brk.length;i++)
+    {  if(i==brk.length-1) {
+    	inter.add(new Interval(brk[i],10000));
+    	continue;
+    	}
+    	
+    	inter.add(new Interval(brk[i],brk[i+1]));}
+    	
+        for(Interval i:inter) {
+    		interval.put(i, person.values().stream()
+    				.filter(e->i.Found(e.getY()))
+    				.collect(toList()));
+    	}
+    	
+    	
     }
 
     /**
@@ -112,7 +128,9 @@ public class Vaccines {
      * @return labels of the age intervals
      */
     public Collection<String> getAgeIntervals() {
-        return null;
+        return interval.keySet().stream()
+        		.map(null)
+        		.collect(toList());
     }
 
     /**
@@ -169,7 +187,7 @@ public class Vaccines {
      	   throw new VaccineException();
     	Staff s=new Staff(hub.get(name),  countDoctors,  nNurses,  other);
     	
-     staff.put();
+     
     }
 
     /**
