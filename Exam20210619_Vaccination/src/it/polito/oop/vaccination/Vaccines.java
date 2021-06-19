@@ -240,15 +240,14 @@ public class Vaccines {
 			    if(person.containsKey(s[0]) || s.length!=4 )
 			    	continue;
 			    
-			    if(!person.containsKey(s[0])) {
-					  if(s.length==4  ) {
+			    
+			    else if(s.length==4  ) {
                      this.addPerson(s[2],s[1],s[0],Integer.parseInt(s[3]));
-                     n++;}
-					  else
-					  {  throw new VaccineException();
-						  }
+                     n++;
+                     }
 					  
-				  }
+					  
+				  
 				  else
 				  {   throw new VaccineException(); 
 					  
