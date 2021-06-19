@@ -106,7 +106,7 @@ public class Vaccines {
     	inter.add(new Interval(brk[i],10000));
     	continue;
     	}
-    	
+      else
     	inter.add(new Interval(brk[i],brk[i+1]));}
     	
         for(Interval i:inter) {
@@ -129,8 +129,9 @@ public class Vaccines {
      */
     public Collection<String> getAgeIntervals() {
         return interval.keySet().stream()
-        		.map(null)
+        		.map(Interval::toString)
         		.collect(toList());
+       
     }
 
     /**
