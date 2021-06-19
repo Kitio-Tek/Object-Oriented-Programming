@@ -147,7 +147,11 @@ public class Vaccines {
      * @return collection of SSN of person in the age interval
      */
     public Collection<String> getInInterval(String intv) {
-        return null;
+        return interval.entrySet().stream()
+        		.filter(e->e.getKey().toString().equals(intv))
+        		.flatMap(e->e.getValue().stream())
+        		.map(Person::getSsn)
+        		.collect(toList());
     }
 
     // R2
