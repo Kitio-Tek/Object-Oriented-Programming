@@ -8,6 +8,7 @@ public class Hub {
 	private String name;
 	private Staff staff;
 	private List<Integer> hourSet=new ArrayList<>();
+	private List<Integer> DailyAvailability=new ArrayList<>();
 
 	public Hub(String name) {
 		// TODO Auto-generated constructor stub
@@ -35,6 +36,11 @@ public class Hub {
 	public List<Integer> getHourSet() {
 		return hourSet;
 	}
+	public List<Integer> getDailyAvailability()
+	{ for(int hour:hourSet)
+		DailyAvailability.add(hour*staff.getCapacity());
 	
+	 return DailyAvailability;
+	}
    
 }
