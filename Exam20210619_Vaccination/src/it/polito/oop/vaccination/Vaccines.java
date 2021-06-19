@@ -7,11 +7,33 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
+import java.util.List;
+import java.util.Map;
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.OptionalDouble;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import discounts.Product;
 public class Vaccines {
 
     public final static int CURRENT_YEAR = java.time.LocalDate.now().getYear();
-
+    private Map<String,Person> person=new HashMap<>();
+    private Map<String,Hub> hub=new HashMap<>();
     // R1
     /**
      * Add a new person to the vaccination system.
@@ -25,7 +47,12 @@ public class Vaccines {
      * @return {@code false} if ssn is duplicate,
      */
     public boolean addPerson(String first, String last, String ssn, int y) {
-        return false;
+        if(person.containsKey(ssn))
+        	return false;
+    	
+        Person p=new Person(first, last,ssn, y);
+    	person.put(ssn, p);
+    	return true;
     }
 
     /**
@@ -34,7 +61,7 @@ public class Vaccines {
      * @return person count
      */
     public int countPeople() {
-        return -1;
+        return person.size();
     }
 
     /**
@@ -46,7 +73,8 @@ public class Vaccines {
      * @return info about the person
      */
     public String getPerson(String ssn) {
-        return null;
+        Person p=person.get(ssn);
+    	return p.getSsn()+","+p.getLast()+","+p.getFirst();
     }
 
     /**
@@ -56,7 +84,7 @@ public class Vaccines {
      * @return age of person (in years)
      */
     public int getAge(String ssn) {
-        return -1;
+        return person.get(ssn).getY();
     }
 
     /**
@@ -71,6 +99,7 @@ public class Vaccines {
      * @param brk the array of breaks
      */
     public void setAgeIntervals(int... brk) {
+    
     }
 
     /**
@@ -107,15 +136,22 @@ public class Vaccines {
      * @throws VaccineException in case of duplicate name
      */
     public void defineHub(String name) throws VaccineException {
+       if(hub.containsKey(name))
+    	   throw new VaccineException();
+       hub.put(name, new Hub(name));
+    
     }
 
+    
     /**
      * Retrieves hub names
      *
      * @return hub names
      */
     public Collection<String> getHubs() {
-        return null;
+        return hub.values().stream()
+        		.map(Hub::getName)
+        		.collect(toList());
     }
 
     /**
@@ -129,6 +165,11 @@ public class Vaccines {
      * @throws VaccineException in case of undefined hub, or any number of personnel not greater than 0.
      */
     public void setStaff(String name, int countDoctors, int nNurses, int other) throws VaccineException {
+    	if(!hub.containsKey(name) || countDoctors<=0)
+     	   throw new VaccineException();
+    	Staff s=new Staff(hub.get(name),  countDoctors,  nNurses,  other);
+    	
+     staff.put();
     }
 
     /**
@@ -162,8 +203,46 @@ public class Vaccines {
     public long loadPeople(Reader people) throws IOException, VaccineException {
         // Hint:
         BufferedReader br = new BufferedReader(people);
+        
+        
+		int n = 0;
+		String line;
+				while((line=br.readLine()) != null)
+			  { String[] s=line.split(";");
+			    for(int i=0;i<s.length;i++)s[i]=s[i].trim();
+				   
+			    if(person.containsKey(s[0]) || s.length!=4 )
+			    	continue;
+			    
+			    if(!person.containsKey(s[0])) {
+					  if(s.length==4  ) {
+                     this.addPerson(s[2],s[1],s[0],Integer.parseInt(s[3]));
+                     n++;}
+					  else
+					  {  throw new VaccineException();
+						  }
+					  
+				  }
+				  else
+				  {   throw new VaccineException(); 
+					  
+				  
+				  }
+					
+				  
+				}
+        
+        
+        
+        
+       
+        
+        
+        
+        
+        
         br.close();
-        return -1;
+        return n;
     }
 
     // R4
@@ -176,6 +255,10 @@ public class Vaccines {
      * @throws VaccineException if there are not exactly 7 elements or if the sum of all hours is less than 0 ore greater than 24*7.
      */
     public void setHours(int... hours) throws VaccineException {
+   
+    
+    
+    
     }
 
     /**
