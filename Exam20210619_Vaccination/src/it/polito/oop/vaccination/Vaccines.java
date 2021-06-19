@@ -28,7 +28,7 @@ public class Vaccines {
     private Map<String,Hub> hub=new HashMap<>();
     private Map<Interval,List<Person>> interval=new HashMap<>();
     private List<Interval> inter=new ArrayList<>();
-    private Set<Integer> hourSet=new HashSet<>();
+    private List<Integer> hourSet=new ArrayList<>();
     
     // R1
     /**
