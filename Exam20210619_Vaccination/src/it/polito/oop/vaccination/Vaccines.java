@@ -284,7 +284,8 @@ public class Vaccines {
      
      }
     
-    
+     hub.values().stream()
+                 .forEach(p->p.SetHours(hourSet));
     }
 
     /**
