@@ -30,6 +30,11 @@ public class Staff {
 	public int getOther() {
 		return other;
 	}
-	
+	public int getCapacity() {
+		int c=Math.min(10*countDoctors,12*nNurses);
+		int b=Math.min(c, 20*other);
+		
+		return b;
+	}
 
 }

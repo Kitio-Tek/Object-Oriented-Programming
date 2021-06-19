@@ -209,7 +209,7 @@ public class Vaccines {
      * @throws VaccineException in case of undefined or hub without staff
      */
     public int estimateHourlyCapacity(String hubName) throws VaccineException {
-        return -1;
+        return hub.get(hubName).getStaff().getCapacity();
     }
 
     // R3
