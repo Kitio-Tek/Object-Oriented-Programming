@@ -11,7 +11,7 @@ public class Interval {
 	    upper = j;
 	}
 	public boolean Found(int i)
-	{ if(lower<=i && upper>=i )
+	{ if(lower<=i && upper>i )
 		return true;
 	 return false;
 	}

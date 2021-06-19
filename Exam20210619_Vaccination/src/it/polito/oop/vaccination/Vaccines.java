@@ -281,6 +281,7 @@ public class Vaccines {
     	 throw new VaccineException();
        else
     	   hourSet.add(i);
+     
      }
     
     
