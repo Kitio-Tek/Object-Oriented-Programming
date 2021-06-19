@@ -195,7 +195,7 @@ public class Vaccines {
      	   throw new VaccineException();
     	Staff s=new Staff(hub.get(name),  countDoctors,  nNurses,  other);
     	
-     
+    	hub.get(name).setStaff(s);
     }
 
     /**
