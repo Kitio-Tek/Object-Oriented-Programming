@@ -303,7 +303,29 @@ public class Vaccines {
      * @return the list hours for each day of the week
      */
     public List<List<String>> getHours() {
-        return null;
+         List<List<String>> list=new LinkedList<>();
+         
+         for(int day:hourSet) {
+        	 List<String> currList=new LinkedList<>();
+        	 list.add(currList);
+        	 int hh=9;
+        	 while(hh<(day+9)) {
+        		 int mm=0;
+        		 while(mm<60) {
+        			 String hour=String.format("%02d", hh);
+        			 String minute=String.format("%02d", mm);
+        			 String formatted=hour+ ":"+minute;
+        			 currList.add(formatted);
+        			 mm+=15;
+        			 
+        		 }
+        		 hh++;
+        	 }
+        	 
+         }
+    	
+    	
+    	return list;
     }
 
     /**
@@ -331,7 +353,12 @@ public class Vaccines {
      * @return
      */
     public Map<String, List<Integer>> getAvailable() {
-        return null;
+        return hub.values().stream()
+        		.collect(toMap( r->r.getName(),
+        				        r->r.getDailyAvailability()
+        				
+        				
+        				));
     }
 
     /**
