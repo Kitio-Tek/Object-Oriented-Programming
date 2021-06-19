@@ -27,8 +27,10 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import discounts.Product;
+
 public class Vaccines {
 
     public final static int CURRENT_YEAR = java.time.LocalDate.now().getYear();
@@ -36,6 +38,7 @@ public class Vaccines {
     private Map<String,Hub> hub=new HashMap<>();
     private Map<Interval,List<Person>> interval=new HashMap<>();
     private List<Interval> inter=new ArrayList<>();
+    
     // R1
     /**
      * Add a new person to the vaccination system.
@@ -111,7 +114,7 @@ public class Vaccines {
     	
         for(Interval i:inter) {
     		interval.put(i, person.values().stream()
-    				.filter(e->i.Found(e.getY()))
+    				.filter(e->i.Found(e.getY()-LocalDateTime.now().getDayOfYear()))
     				.collect(toList()));
     	}
     	
