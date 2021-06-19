@@ -105,7 +105,7 @@ public class Vaccines {
     	
         for(Interval i:inter) {
     		interval.put(i, person.values().stream()
-    				.filter(e->i.Found(e.getY()-LocalDateTime.now().getDayOfYear()))
+    				.filter(e->i.Found(e.getY()-CURRENT_YEAR))
     				.collect(toList()));
     	}
     	
