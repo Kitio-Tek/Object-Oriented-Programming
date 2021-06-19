@@ -231,7 +231,7 @@ public class Vaccines {
 			  { String[] s=line.split(";");
 			    for(int i=0;i<s.length;i++)s[i]=s[i].trim();
 				   
-			    if(person.containsKey(s[0]) || s.length!=4 )
+			    if(person.containsKey(s[0]) )
 			    	continue;
 			    
 			    
