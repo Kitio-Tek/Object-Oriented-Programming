@@ -283,8 +283,12 @@ public class Vaccines {
      * @throws VaccineException if there are not exactly 7 elements or if the sum of all hours is less than 0 ore greater than 24*7.
      */
     public void setHours(int... hours) throws VaccineException {
-     if(hours.length!=7)
+     if(hours.length!=7 )
        throw new VaccineException();
+     for(int i:hours)
+     { if(i>12)
+    	 throw new VaccineException();
+     }
     
     
     }
