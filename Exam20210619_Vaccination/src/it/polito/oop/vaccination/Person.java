@@ -86,4 +86,7 @@ public class Person {
    public void SetAllocate() {
 	   allocate=true;
    }
+   public void clearAllocation() {
+	   allocate=false;
+   }
 }

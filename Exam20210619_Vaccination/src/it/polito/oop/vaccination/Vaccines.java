@@ -398,7 +398,7 @@ public class Vaccines {
     	
     	if(n>0) {
     		 for(Interval c:AgeInterval) {
-    		    	List<Person> ThisInterval=person.values().stream().filter(Person::isAllocated).filter(p->c.Found(p.getAge())).limit((int)(n)).collect(toList());
+    		    	List<Person> ThisInterval=person.values().stream().filter((Person p)->!p.isAllocated()).filter(p->c.Found(p.getAge())).limit((int)(n)).collect(toList());
     		    	ThisInterval.forEach(Person::SetAllocate);
     		    	n-=ThisInterval.size();
     		    	
@@ -418,6 +418,8 @@ public class Vaccines {
      * clears their allocation status
      */
     public void clearAllocation() {
+     person.values().forEach(Person::clearAllocation);
+    
     }
 
     /**
@@ -439,7 +441,9 @@ public class Vaccines {
      * @return the list of daily allocations
      */
     public List<Map<String, List<String>>> weekAllocate() {
-        return null;
+        
+    	
+    	return null;
     }
 
     // R5
