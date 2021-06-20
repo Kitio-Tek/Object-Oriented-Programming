@@ -489,12 +489,12 @@ public class Vaccines {
      * @return proportion of allocated people by age interval
      */
     public Map<String, Double> propAllocatedAge() {
-    	inter.forEach(intervallo-> {
-            getInInterval(intervallo.toString()).stream().filter(ssn -> person.get(ssn).isAllocated()).collect(Collectors.toList());
-
-         
-        });    	
-    	return null;
+    	  	Map<String,Double> res=new HashMap<>();
+    	  	for(Interval i:inter) {
+    	  		double a=(double)getInInterval(i.toString()).stream().filter(Person::isAllocated).count();
+    	  		res.put(i.toString(),(double)(a/(double)getInInterval(i.toString()).size()));
+    	  	}
+    	return res;
     }
 
     /**
