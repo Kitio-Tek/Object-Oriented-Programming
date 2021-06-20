@@ -378,7 +378,15 @@ public class Vaccines {
      * @return the list of daily allocations
      */
     public List<String> allocate(String hubName, int d) {
-        return null;
+       List<Interval> AgeInterval=new ArrayList<>();
+       AgeInterval=interval.keySet().stream()
+    		               .sorted(comparing((Interval e)->e.getLower(),reverseOrder()))
+    		               .collect(toList());
+    	
+    	
+    	
+    	
+    	return null;
     }
 
     /**

@@ -21,4 +21,8 @@ public class Interval {
 
 	   return  "["+lower+","+upper+")"; 
    }
+  public int getLower() {
+	return lower;
+}
+   
 }
