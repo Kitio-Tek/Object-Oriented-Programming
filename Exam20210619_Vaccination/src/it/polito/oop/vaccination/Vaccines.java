@@ -447,9 +447,9 @@ public class Vaccines {
     public List<Map<String, List<String>>> weekAllocate() {
     	List<Map<String, List<String>>> result=new ArrayList<>();
     	for(int i=0;i<7;i++) {
-    		result.add(hub.values().stream().collect(groupingBy(h->h.getName(),
-    				                                            TreeMap::new,
-    				                                            h->h.
+    		result.add(hub.values().stream().collect(toMap(h->h.getName(),
+    				                                            
+    				                                            h->h.getPersonSSnperDay(i)
     				
     				
     				
