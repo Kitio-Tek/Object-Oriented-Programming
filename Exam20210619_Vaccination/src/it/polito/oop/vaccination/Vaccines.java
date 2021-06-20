@@ -81,7 +81,7 @@ public class Vaccines {
      * @return age of person (in years)
      */
     public int getAge(String ssn) {
-        return person.get(ssn).getY();
+        return person.get(ssn).getAge();
     }
 
     /**
@@ -95,7 +95,7 @@ public class Vaccines {
      *
      * @param brk the array of breaks
      */
-    public void setAgeIntervals(int... brk) {
+    public void setAgeIntervals(int... brk) { inter.add(new Interval(0,brk[0])); 
     for(int i=0;i<brk.length;i++)
     {  if(i==brk.length-1) {
     	inter.add(new Interval(brk[i],10000));
@@ -123,9 +123,9 @@ public class Vaccines {
      * @return labels of the age intervals
      */
     public Collection<String> getAgeIntervals() {
-        return interval.keySet().stream()
-        		.map(Interval::toString)
-        		.collect(toList());
+     return	 inter.stream().map(Interval::toString).collect(toList());
+   	
+    	
        
     }
 
@@ -139,11 +139,12 @@ public class Vaccines {
      * @return collection of SSN of person in the age interval
      */
     public Collection<String> getInInterval(String intv) {
-        return interval.entrySet().stream()
+        List<String> s=new ArrayList<>();
+    	 s=interval.entrySet().stream()
         		.filter(e->e.getKey().toString().equals(intv))
         		.flatMap(e->e.getValue().stream())
         		.map(Person::getSsn)
-        		.collect(toList());
+        		.collect(toList()); return s;
     }
 
     // R2
@@ -227,32 +228,34 @@ public class Vaccines {
         
         
 		int n = 0;
-		String line;
+		String line;  
+		
+		
+		 try {
 				while((line=br.readLine()) != null)
-			  { String[] s=line.split(";");
-			    for(int i=0;i<s.length;i++)s[i]=s[i].trim();
-				   
-			    if(person.containsKey(s[0]) )
-			    	continue;
+			  { String[] s=line.split(","); 
+			    if(n==0) {
+			    	if(!line.equals("SSN,LAST,FIRST,YEAR"))
+			    		throw new VaccineException();
+			    	n++; continue;
+			    }
+			    if(person.containsKey(s[0]) || s.length!=4   )
+			    {	continue;}
 			    
 			    
-			    else if(s.length==4  ) {
+			    if(s.length==4) {
                      this.addPerson(s[2],s[1],s[0],Integer.parseInt(s[3]));
                      n++;
                      }
 					  
 					  
 				  
-				  else
-				  {   throw new VaccineException(); 
-					  
-				  
-				  }
+				 
 					
 				  
-				}
+				}}
         
-        
+        catch(IOException e) { throw e;}
         
         
        
@@ -380,7 +383,7 @@ public class Vaccines {
      */
     public List<String> allocate(String hubName, int d) {
        List<Interval> AgeInterval=new ArrayList<>();
-       AgeInterval=interval.keySet().stream()
+       AgeInterval=        inter.stream()
     		               .sorted(comparing((Interval e)->e.getLower(),reverseOrder()))
     		               .collect(toList());
     	
@@ -389,12 +392,12 @@ public class Vaccines {
     	List<Person> result=new ArrayList<>();
     	
     	for(Interval c:AgeInterval) {
-    	List<Person> ThisInterval=person.values().stream().filter(Person::isAllocated).filter(p->c.Found(p.getAge())).limit((int)(n*0.4)).collect(toList());
+    	List<Person> ThisInterval=person.values().stream().filter((Person p)->!p.isAllocated()).filter(p->c.Found(p.getAge())).limit((int)(n*0.4)).collect(toList());
     	ThisInterval.forEach(Person::SetAllocate);
     	n-=ThisInterval.size();
     	
     	ThisInterval.forEach(p->res.add(p.getSsn()));
-    	ThisInterval.forEach(p->result.add(p));
+    	
     	
     		 
     	 }
@@ -407,7 +410,7 @@ public class Vaccines {
     		    	n-=ThisInterval.size();
     		    	
     		    	ThisInterval.forEach(p->res.add(p.getSsn()));
-    		    	ThisInterval.forEach(p->result.add(p));
+    		    	
     		    	 }
     	}
     	
@@ -450,8 +453,9 @@ public class Vaccines {
     	for(int j=0;j<7;j++) day.add(j);
     		
     	
-    	for(int i:day) 
-    		result.add(hub.values().stream().collect(toMap(h->h.getName(),h->h.getPersonSSnperDay(i))));
+    	for(int i:day) result.
+    	               add(hub.values().stream()
+    	            		   .collect(toMap(h->h.getName(),h ->allocate(h.getName(),i))));
     	
     	
     	return result;
@@ -466,7 +470,12 @@ public class Vaccines {
      * @return proportion of allocated people
      */
     public double propAllocated() {
-        return -1.0;
+   return person.values().stream()
+		   .filter(Person::isAllocated)
+		   .count()
+		   /Double.valueOf(countPeople());  
+    	
+    	
     }
 
     /**
@@ -480,7 +489,12 @@ public class Vaccines {
      * @return proportion of allocated people by age interval
      */
     public Map<String, Double> propAllocatedAge() {
-        return null;
+    	inter.forEach(intervallo-> {
+            getInInterval(intervallo.toString()).stream().filter(ssn -> person.get(ssn).isAllocated()).collect(Collectors.toList());
+
+         
+        });    	
+    	return null;
     }
 
     /**
@@ -494,7 +508,7 @@ public class Vaccines {
      * @return
      */
     public Map<String, Double> distributionAllocated() {
-        return null;
+      
     }
 
     // R6

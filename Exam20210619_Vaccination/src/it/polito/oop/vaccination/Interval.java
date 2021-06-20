@@ -16,7 +16,7 @@ public class Interval {
 	 return false;
 	}
    public String toString() {
-	 if(upper==1000)
+	 if(upper>100)
 		 return  "["+lower+",+)"; 
 
 	   return  "["+lower+","+upper+")"; 

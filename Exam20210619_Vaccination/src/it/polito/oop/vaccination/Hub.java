@@ -51,8 +51,6 @@ public class Hub {
 		WeekAllocate.put(d,result);
 		
 	}
-	public List<String> getPersonSSnperDay(int d){
-		return WeekAllocate.get(d).stream().filter((Person p)->p.isAllocated()).map(Person::getSsn).collect(Collectors.toList());
-	}
+	
    
 }
