@@ -1,5 +1,23 @@
 package it.polito.oop.vaccination;
+import java.io.IOException;import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.util.function.BiConsumer;
+import java.util.*;
+
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
+
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +51,8 @@ public class Person {
 	private String last;
 	private String ssn;
 	private int y;
+	public final static int CURRENT_YEAR = java.time.LocalDate.now().getYear();
+	private boolean allocate=false;
 
 	public Person(String first, String last, String ssn, int y) {
 		// TODO Auto-generated constructor stub
@@ -57,5 +77,13 @@ public class Person {
 	public int getY() {
 		return y;
 	}
-
+	public int getAge() {
+		return  CURRENT_YEAR-y;
+	}
+   public boolean isAllocated() {
+	   return allocate;
+   }
+   public void SetAllocate() {
+	   allocate=true;
+   }
 }

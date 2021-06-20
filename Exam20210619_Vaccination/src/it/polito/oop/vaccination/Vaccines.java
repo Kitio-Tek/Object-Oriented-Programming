@@ -105,7 +105,7 @@ public class Vaccines {
     	
         for(Interval i:inter) {
     		interval.put(i, person.values().stream()
-    				.filter(e->i.Found(e.getY()-CURRENT_YEAR))
+    				.filter(e->i.Found(e.getAge()))
     				.collect(toList()));
     	}
     	
@@ -383,10 +383,34 @@ public class Vaccines {
     		               .sorted(comparing((Interval e)->e.getLower(),reverseOrder()))
     		               .collect(toList());
     	
+    	int n=getDailyAvailable(hubName,d);
+    	List<String> res=new ArrayList<>();
+    	
+    	for(Interval c:AgeInterval) {
+    	List<Person> ThisInterval=person.values().stream().filter(Person::isAllocated).filter(p->c.Found(p.getAge())).limit((int)(n*0.4)).collect(toList());
+    	ThisInterval.forEach(Person::SetAllocate);
+    	n-=ThisInterval.size();
+    	
+    	ThisInterval.forEach(p->res.add(p.getSsn()));
+    		 
+    	 }
     	
     	
+    	if(n>0) {
+    		 for(Interval c:AgeInterval) {
+    		    	List<Person> ThisInterval=person.values().stream().filter(Person::isAllocated).filter(p->c.Found(p.getAge())).limit((int)(n)).collect(toList());
+    		    	ThisInterval.forEach(Person::SetAllocate);
+    		    	n-=ThisInterval.size();
+    		    	
+    		    	ThisInterval.forEach(p->res.add(p.getSsn()));
+    		    		 
+    		    	 }
+    	}
     	
-    	return null;
+    	
+    	 
+    	 
+    	 return res;
     }
 
     /**
