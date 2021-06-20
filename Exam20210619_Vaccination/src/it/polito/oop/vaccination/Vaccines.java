@@ -29,6 +29,7 @@ public class Vaccines {
     private Map<Interval,List<Person>> interval=new HashMap<>();
     private List<Interval> inter=new ArrayList<>();
     private List<Integer> hourSet=new ArrayList<>();
+    private List<Integer> day=new ArrayList<>();
     
     // R1
     /**
@@ -446,20 +447,14 @@ public class Vaccines {
      */
     public List<Map<String, List<String>>> weekAllocate() {
     	List<Map<String, List<String>>> result=new ArrayList<>();
-    	for(int i=0;i<7;i++) {
-    		result.add(hub.values().stream().collect(toMap(h->h.getName(),
-    				                                            
-    				                                            h->h.getPersonSSnperDay(i)
-    				
-    				
-    				
-    				))
-    				
-    				
-    				);
-    	}
+    	for(int j=0;j<7;j++) day.add(j);
+    		
     	
-    	return null;
+    	for(int i:day) 
+    		result.add(hub.values().stream().collect(toMap(h->h.getName(),h->h.getPersonSSnperDay(i))));
+    	
+    	
+    	return result;
     }
 
     // R5
