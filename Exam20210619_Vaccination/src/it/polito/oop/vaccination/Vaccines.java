@@ -385,6 +385,7 @@ public class Vaccines {
     	
     	int n=getDailyAvailable(hubName,d);
     	List<String> res=new ArrayList<>();
+    	List<Person> result=new ArrayList<>();
     	
     	for(Interval c:AgeInterval) {
     	List<Person> ThisInterval=person.values().stream().filter(Person::isAllocated).filter(p->c.Found(p.getAge())).limit((int)(n*0.4)).collect(toList());
@@ -392,6 +393,8 @@ public class Vaccines {
     	n-=ThisInterval.size();
     	
     	ThisInterval.forEach(p->res.add(p.getSsn()));
+    	ThisInterval.forEach(p->result.add(p));
+    	
     		 
     	 }
     	
@@ -403,12 +406,13 @@ public class Vaccines {
     		    	n-=ThisInterval.size();
     		    	
     		    	ThisInterval.forEach(p->res.add(p.getSsn()));
-    		    		 
+    		    	ThisInterval.forEach(p->result.add(p));
     		    	 }
     	}
     	
     	
     	 
+    	 hub.get(hubName).setDailyAllocate(d,result);
     	 
     	 return res;
     }
@@ -441,7 +445,19 @@ public class Vaccines {
      * @return the list of daily allocations
      */
     public List<Map<String, List<String>>> weekAllocate() {
-        
+    	List<Map<String, List<String>>> result=new ArrayList<>();
+    	for(int i=0;i<7;i++) {
+    		result.add(hub.values().stream().collect(groupingBy(h->h.getName(),
+    				                                            TreeMap::new,
+    				                                            h->h.
+    				
+    				
+    				
+    				))
+    				
+    				
+    				);
+    	}
     	
     	return null;
     }
