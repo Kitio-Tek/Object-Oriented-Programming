@@ -53,6 +53,7 @@ public class Person {
 	private int y;
 	public final static int CURRENT_YEAR = java.time.LocalDate.now().getYear();
 	private boolean allocate=false;
+	private Interval i;
 
 	public Person(String first, String last, String ssn, int y) {
 		// TODO Auto-generated constructor stub
@@ -89,4 +90,13 @@ public class Person {
    public void clearAllocation() {
 	   allocate=false;
    }
+   public void SetInterval(Interval i)
+   { this.i=i;
+	   
+   }
+
+public Interval getI() {
+	return i;
+}
+   
 }

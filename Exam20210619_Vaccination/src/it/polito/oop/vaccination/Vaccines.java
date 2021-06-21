@@ -108,6 +108,10 @@ public class Vaccines {
     		interval.put(i, person.values().stream()
     				.filter(e->i.Found(e.getAge()))
     				.collect(toList()));
+    		person.values().stream()
+			.filter(e->i.Found(e.getAge()))
+			.forEach(e->e.SetInterval(i));
+
     	}
     	
     	
@@ -490,10 +494,18 @@ public class Vaccines {
      */
     public Map<String, Double> propAllocatedAge() {
     	  	Map<String,Double> res=new HashMap<>();
+    	  	/*Collection<String> m=new ArrayList<>();
     	  	for(Interval i:inter) {
-    	  		double a=(double)getInInterval(i.toString()).stream().filter(Person::isAllocated).count();
-    	  		res.put(i.toString(),(double)(a/(double)getInInterval(i.toString()).size()));
+    	  		m=getInInterval(i.toString()).stream().filter(ssn -> person.get(ssn).isAllocated()).collect(Collectors.toList());
+    	  		double a=m.size();
+    	  		res.put(i.toString(),(double)(m.size()/(double)getInInterval(i.toString()).size()));
+    	  	}*/
+    	  	person.values().stream().filter((Person p)->p.isAllocated()).collect(groupingBy((Person p)->p.getI().toString(),counting()))
+    	  	.forEach((key,value)->{ res.put(key, (double)(value/(double)person.values().stream().count()));
+    	  		
     	  	}
+    	  			
+    	  			);
     	return res;
     }
 
