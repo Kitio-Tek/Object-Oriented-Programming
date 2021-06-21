@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public class Vaccines {
 
     public final static int CURRENT_YEAR = java.time.LocalDate.now().getYear();
-    private Map<String,Person> person=new HashMap<>();
+    private Map<String,Person> person=new HashMap<>(); private BiConsumer<Integer,String> l=null;
     private Map<String,Hub> hub=new HashMap<>();
     private Map<Interval,List<Person>> interval=new HashMap<>();
     private List<Interval> inter=new ArrayList<>();
@@ -231,7 +231,7 @@ public class Vaccines {
         BufferedReader br = new BufferedReader(people);
         
         
-		int n = 0;
+		int n = 0,c=1;
 		String line;  
 		
 		
@@ -240,11 +240,11 @@ public class Vaccines {
 			  { String[] s=line.split(","); 
 			    if(n==0) {
 			    	if(!line.equals("SSN,LAST,FIRST,YEAR"))
-			    		throw new VaccineException();
-			    	n++; continue;
+			    		{if(l!=null) l.accept(c, line);               throw new VaccineException();}
+			    	c++;n++; continue;
 			    }
 			    if(person.containsKey(s[0]) || s.length!=4   )
-			    {	continue;}
+			    {if(l!=null) l.accept(c, line); 	}
 			    
 			    
 			    if(s.length==4) {
@@ -252,7 +252,7 @@ public class Vaccines {
                      n++;
                      }
 					  
-					  
+				c++;	  
 				  
 				 
 					
@@ -494,18 +494,11 @@ public class Vaccines {
      */
     public Map<String, Double> propAllocatedAge() {
     	  	Map<String,Double> res=new HashMap<>();
-    	  	/*Collection<String> m=new ArrayList<>();
-    	  	for(Interval i:inter) {
-    	  		m=getInInterval(i.toString()).stream().filter(ssn -> person.get(ssn).isAllocated()).collect(Collectors.toList());
-    	  		double a=m.size();
-    	  		res.put(i.toString(),(double)(m.size()/(double)getInInterval(i.toString()).size()));
-    	  	}*/
+    	  
     	  	person.values().stream().filter((Person p)->p.isAllocated()).collect(groupingBy((Person p)->p.getI().toString(),counting()))
-    	  	.forEach((key,value)->{ res.put(key, (double)(value/(double)person.values().stream().count()));
-    	  		
-    	  	}
+    	  	.forEach((key,value)->{ res.put(key, (double)(value/(double)person.values().stream().count()));});
     	  			
-    	  			);
+    	  			
     	return res;
     }
 
@@ -520,8 +513,13 @@ public class Vaccines {
      * @return
      */
     public Map<String, Double> distributionAllocated() {
-      
-    }
+    	Map<String,Double> res=new HashMap<>();
+  	  
+	  	person.values().stream().filter((Person p)->p.isAllocated()).collect(groupingBy((Person p)->p.getI().toString(),counting()))
+	  	.forEach((key,value)->{ res.put(key, (double)(value/(double)person.values().stream().filter((Person p)->p.isAllocated()).count()));});
+	  			
+	  			
+	return res;    }
 
     // R6
     /**
@@ -534,5 +532,6 @@ public class Vaccines {
      * @param lst the listener for load errors
      */
     public void setLoadListener(BiConsumer<Integer, String> lst) {
+    	l=lst;
     }
 }
